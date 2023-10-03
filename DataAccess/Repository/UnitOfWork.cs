@@ -15,7 +15,7 @@ namespace DataAccess.Repository
 			this.context = context;
 		}
 
-		public async Task<int> Complete()
+		public async Task<int> SaveChanges()
 		{
 			return await context.SaveChangesAsync();
 		}

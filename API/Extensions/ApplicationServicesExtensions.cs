@@ -1,4 +1,6 @@
-﻿using Core.Interfaces.Repository;
+﻿using BusinessLogic.Services;
+using Core.Interfaces.Repository;
+using Core.Interfaces.Services;
 using DataAccess.Data;
 using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,12 @@ namespace API.Extensions
 
 			services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+			//Business Logic
+			services.AddScoped<ITicketServices, TicketServices>();
+
+			//Auto Mapper
+			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 			return services;
 		}
