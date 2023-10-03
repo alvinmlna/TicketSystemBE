@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(TicketDBContext))]
-    [Migration("20231003170700_initial")]
+    [Migration("20231003173908_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -79,6 +79,26 @@ namespace DataAccess.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Core.Entities.Status", b =>
+                {
+                    b.Property<int>("StatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StatusGroupId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StatusId");
+
+                    b.ToTable("Status");
+                });
+
             modelBuilder.Entity("Core.Entities.Ticket", b =>
                 {
                     b.Property<int>("TicketId")
@@ -108,9 +128,8 @@ namespace DataAccess.Migrations
                     b.Property<DateTime>("RaisedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Summary")
                         .IsRequired()
@@ -126,6 +145,8 @@ namespace DataAccess.Migrations
                     b.HasIndex("PriorityId");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
 
@@ -180,6 +201,12 @@ namespace DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Core.Entities.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Core.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -191,6 +218,8 @@ namespace DataAccess.Migrations
                     b.Navigation("Priority");
 
                     b.Navigation("Product");
+
+                    b.Navigation("Status");
 
                     b.Navigation("User");
                 });

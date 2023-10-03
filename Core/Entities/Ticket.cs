@@ -10,7 +10,6 @@ namespace Core.Entities
 
         public string? Description { get; set; }
 
-		public string Status { get; set; }
         public DateTime RaisedDate { get; set; }
 
         public DateTime ExpectedDate { get; set; }
@@ -21,17 +20,26 @@ namespace Core.Entities
         public int UserId { get; set; }
         public User User { get; set; }
 
+
         [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
         public Product Product { get; set; }
+
 
 		[ForeignKey(nameof(Category))]
 		public int CategoryId { get; set; }
 		public Category Category { get; set; }
 
 
+
 		[ForeignKey(nameof(Priority))]
 		public int PriorityId { get; set; }
 		public Priority Priority { get; set; }
-    }
+
+
+		[ForeignKey(nameof(Status))]
+		public int StatusId { get; set; }
+		public Status Status { get; set; }
+
+	}
 }
