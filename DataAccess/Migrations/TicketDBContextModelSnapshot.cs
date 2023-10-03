@@ -36,7 +36,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Priority", b =>
@@ -53,7 +53,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("PriorityId");
 
-                    b.ToTable("Priorities");
+                    b.ToTable("Priorities", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Product", b =>
@@ -70,7 +70,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Ticket", b =>
@@ -118,7 +118,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.User", b =>
@@ -146,7 +146,7 @@ namespace DataAccess.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Core.Entities.Ticket", b =>

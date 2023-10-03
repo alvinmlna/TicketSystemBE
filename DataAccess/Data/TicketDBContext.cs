@@ -6,6 +6,9 @@ namespace DataAccess.Data
 {
 	public class TicketDBContext : DbContext
 	{
+		public TicketDBContext(DbContextOptions options) : base(options)
+		{
+		}
 		public DbSet<Category> Categories { get; set; }
         public DbSet<Priority> Priorities{ get; set; }
 		public DbSet<Product> Products { get; set; }
@@ -14,8 +17,8 @@ namespace DataAccess.Data
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			//base.OnConfiguring(optionsBuilder);
-			optionsBuilder.UseSqlServer("Server=localhost\\sqlexpress;Database=ticketdb;Trusted_Connection=True;TrustServerCertificate=true;");
+			base.OnConfiguring(optionsBuilder);
+			//optionsBuilder.UseSqlServer("Server=localhost\\sqlexpress;Database=ticketdb;Trusted_Connection=True;TrustServerCertificate=true;");
 		}
 	}
 }
