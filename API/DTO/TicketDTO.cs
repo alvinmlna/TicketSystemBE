@@ -16,5 +16,7 @@ namespace API.DTO
 		public int CategoryId { get; set; }
 		public int PriorityId { get; set; }
 		public int StatusId { get; set; }
+
+		public List<IFormFile>? Attachments { get; set; }
 	}
 }
