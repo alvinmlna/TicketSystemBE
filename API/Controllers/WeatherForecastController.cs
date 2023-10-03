@@ -14,20 +14,20 @@ namespace API.Controllers
 	};
 
 		private readonly ILogger<WeatherForecastController> _logger;
-		private readonly IGenericRepository<Product> _productRepo;
+		private readonly IUnitOfWork _unitOfWork;
 
 		public WeatherForecastController(ILogger<WeatherForecastController> logger,
-			IGenericRepository<Product> productRepo
+			IUnitOfWork unitOfWork
 			)
 		{
 			_logger = logger;
-			_productRepo = productRepo;
+			_unitOfWork = unitOfWork;
 		}
 
 		[HttpGet(Name = "GetWeatherForecast")]
 		public async Task<IEnumerable<WeatherForecast>> Get()
 		{
-			var check = await _productRepo.ListAllAsync();
+			var check = await _unitOfWork.Repository<Product>().ListAllAsync();
 			return Enumerable.Range(1, 5).Select(index => new WeatherForecast
 			{
 				Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
