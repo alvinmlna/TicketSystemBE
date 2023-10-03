@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(TicketDBContext))]
-    [Migration("20231003112912_initial")]
+    [Migration("20231003170700_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -50,6 +50,9 @@ namespace DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PriorityId"));
 
+                    b.Property<int>("ExpectedLimit")
+                        .HasColumnType("int");
+
                     b.Property<string>("PriorityName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -78,15 +81,20 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Core.Entities.Ticket", b =>
                 {
-                    b.Property<string>("TicketId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("TicketId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketId"));
 
                     b.Property<string>("AssignedTo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ExpectedDate")
                         .HasColumnType("datetime2");

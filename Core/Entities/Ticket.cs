@@ -4,16 +4,18 @@ namespace Core.Entities
 {
 	public class Ticket
 	{
-        public string TicketId { get; set; }
+        public int TicketId { get; set; }
 
         public string Summary { get; set; }
 
-        public string Status { get; set; }
+        public string? Description { get; set; }
+
+		public string Status { get; set; }
         public DateTime RaisedDate { get; set; }
 
         public DateTime ExpectedDate { get; set; }
-        public string AssignedTo { get; set; }
 
+        public string? AssignedTo { get; set; }
 
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }
