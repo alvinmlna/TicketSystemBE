@@ -17,6 +17,9 @@ namespace BusinessLogic.Services
 		{
 			ticket.RaisedDate = DateTime.Now;
 
+			int SLA = await GetSLA(ticket.PriorityId);
+			ticket.ExpectedDate = DateTime.Now.AddMinutes(SLA);
+
 			_unitOfWork.Repository<Ticket>().Add(ticket);
 
 			int result = await _unitOfWork.SaveChanges();
@@ -24,6 +27,15 @@ namespace BusinessLogic.Services
 				return true;
 
 			return false;
+		}
+
+
+		private async Task<int> GetSLA(int priorityId)
+		{
+			var result = await _unitOfWork.Repository<Priority>().GetByIdAsync(priorityId);
+			if (result != null) return result.ExpectedLimit;
+
+			return 0;
 		}
 	}
 }
