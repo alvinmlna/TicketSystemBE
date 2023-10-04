@@ -1,14 +1,11 @@
 ﻿using API.DTO;
 using API.Helpers;
-using API.Helpers.Validations;
 using API.Helpers.ValidationsHelper;
 using AutoMapper;
-using BusinessLogic.Services;
 using Core.Entities;
 using Core.Interfaces.Services;
 using eCommerce.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -35,8 +32,11 @@ namespace API.Controllers
 		public async Task<ActionResult> AddTicket([FromForm] TicketDTO ticket)
 		{
 			//Validate
-			var isValid = _ticketValidations.Validate(ticket);
+			var validationResult = _ticketValidations.Validate(ticket);
+			if (!validationResult.IsValid)
+				return ApiResponseHelpers.ValidationError(validationResult);
 
+			throw new Exception("ayam");
 
 			var ticketData = _mapper.Map<TicketDTO, Ticket>(ticket);
 			var result = await _ticketServices.AddTicket(ticketData);
