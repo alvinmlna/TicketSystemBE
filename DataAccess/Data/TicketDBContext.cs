@@ -14,6 +14,8 @@ namespace DataAccess.Data
 		public DbSet<Product> Products { get; set; }
 		public DbSet<Ticket> Tickets { get; set; }
 		public DbSet<User> Users { get; set; }
+		public DbSet<Configuration> Configurations { get; set; }
+		public DbSet<Status> Statuses { get; set; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
