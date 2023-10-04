@@ -7,7 +7,9 @@ using DataAccess.Data;
 using DataAccess.Repository;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
+using System.Security.AccessControl;
 
 namespace API.Extensions
 {

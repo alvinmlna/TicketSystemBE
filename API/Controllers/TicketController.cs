@@ -20,9 +20,16 @@ namespace API.Controllers
 
 		private readonly TicketValidations _ticketValidations;
 
-		public TicketController(IMapper mapper, ITicketServices ticketServices, IConfigurationService configurationService)
+
+		private readonly ILogger<TicketController> _logger;
+
+		public TicketController(IMapper mapper, 
+			ITicketServices ticketServices, 
+			IConfigurationService configurationService,
+			ILogger<TicketController> logger)
 		{
 			_mapper = mapper;
+			_logger = logger;
 			_ticketServices = ticketServices;
 			_configurationService = configurationService;
 			_ticketValidations = new TicketValidations(_configurationService);
@@ -33,6 +40,8 @@ namespace API.Controllers
         [HttpGet]
 		public async Task<ActionResult> AddTicket([FromForm] TicketDTO ticket)
 		{
+			_logger.LogInformation("Test gun");
+
 			//Validate
 			var validationResult = _ticketValidations.Validate(ticket);
 			if (!validationResult.IsValid)

@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Middleware;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationServices(builder.Configuration);
+
+//Add serilog
+var logger = new LoggerConfiguration()
+		  .ReadFrom.Configuration(builder.Configuration)
+		  .Enrich.FromLogContext()
+		  .CreateLogger();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 var app = builder.Build();
 
