@@ -1,9 +1,13 @@
-﻿using BusinessLogic.Services;
+﻿using API.DTO;
+using API.Helpers.Validations;
+using BusinessLogic.Services;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
 using DataAccess.Data;
 using DataAccess.Repository;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace API.Extensions
 {
@@ -19,6 +23,7 @@ namespace API.Extensions
 			services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped(typeof(IConfigurationRepository), typeof(ConfigurationRepository));
+			services.AddScoped<IConfigurationService, ConfigurationService>();
 
 			//Business Logic
 			services.AddScoped<ITicketServices, TicketServices>();

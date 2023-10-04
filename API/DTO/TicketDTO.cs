@@ -18,10 +18,7 @@ namespace API.DTO
 		public int PriorityId { get; set; }
 		public int StatusId { get; set; }
 
-		[Required(ErrorMessage = "Please select a file.")]
 		[DataType(DataType.Upload)]
-		[MaxFileSize(1 * 1024 * 1024)]
-		[AllowedExtensions(new string[] { ".jpg", ".png" })]
 		public List<IFormFile>? Attachments { get; set; }
 	}
 }

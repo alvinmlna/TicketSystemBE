@@ -31,7 +31,7 @@ namespace BusinessLogic.Services
 			}
 		}
 
-		public async Task<Configuration?> GetConfigurationValue(string key, bool searchCache = true)
+		private async Task<Configuration?> GetConfigurationValue(string key, bool searchCache = true)
 		{
 			if (searchCache)
 			{

@@ -1,13 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Interfaces.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Helpers.Validations
 {
 	public class MaxFileSizeAttribute : ValidationAttribute
 	{
 		private readonly int _maxFileSize;
-		public MaxFileSizeAttribute(int maxFileSize)
+		private readonly IConfigurationService _configurationService;
+
+		public MaxFileSizeAttribute(IConfigurationService configurationService)
 		{
-			_maxFileSize = maxFileSize;
+			_configurationService = configurationService;
+			_maxFileSize = _configurationService.GetMaxFileSizeConfiguration().Result;
 		}
 
 		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
