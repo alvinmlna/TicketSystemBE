@@ -10,6 +10,11 @@ namespace API.Helpers
 		public FileUploaderHelper(string uploadPath)
         {
 			_uploadPath = uploadPath;
+
+			if (!Directory.Exists(_uploadPath))
+			{
+				Directory.CreateDirectory(_uploadPath);
+			}
 		}
 
 		public async Task<FileUploadResult> UploadFile(List<IFormFile>? files)

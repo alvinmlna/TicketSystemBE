@@ -2,6 +2,7 @@
 using API.Helpers;
 using API.Helpers.ValidationsHelper;
 using AutoMapper;
+using Core.Constants;
 using Core.Entities;
 using Core.Interfaces.Services;
 using eCommerce.API.Controllers;
@@ -20,13 +21,13 @@ namespace API.Controllers
 		private readonly TicketValidations _ticketValidations;
 
 		public TicketController(IMapper mapper, ITicketServices ticketServices, IConfigurationService configurationService)
-        {
+		{
 			_mapper = mapper;
 			_ticketServices = ticketServices;
 			_configurationService = configurationService;
 			_ticketValidations = new TicketValidations(_configurationService);
 
-			_fileUploader = new FileUploaderHelper("G:\\Portofolio\\TicketManagementSystem\\BackEnd\\TicketManagement\\API\\Images\\");
+			_fileUploader = new FileUploaderHelper(AppContext.BaseDirectory + "/images");
 		}
 
         [HttpGet]
