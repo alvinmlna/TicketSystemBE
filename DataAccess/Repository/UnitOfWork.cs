@@ -9,11 +9,22 @@ namespace DataAccess.Repository
 		private readonly TicketDBContext context;
 		private Hashtable repositories;
 
+		private ConfigurationRepository configurationRepository;
 
 		public UnitOfWork(TicketDBContext context)
 		{
 			this.context = context;
 		}
+
+		public IConfigurationRepository ConfigurationRepository { get
+			{
+				if (configurationRepository == null)
+				{
+					configurationRepository = new ConfigurationRepository(context);
+				}
+				return configurationRepository; 
+			}
+		} 
 
 		public async Task<int> SaveChanges()
 		{
