@@ -15,6 +15,14 @@ namespace BusinessLogic.Services
 			_unitOfWork = unitOfWork;
 		}
 
+		public async Task<string[]> GetAllowedExtensionsConfiguration()
+		{
+			var result = await GetConfigurationValue(ConfigContants.FileUpload_AllowedExtensions);
+			if (result == null) return new string[] { };
+
+			return result.ConfigValue.Split(',');
+		}
+
 		//Default will be 0 if no result
 		public async Task<int> GetMaxFileSizeConfiguration()
 		{

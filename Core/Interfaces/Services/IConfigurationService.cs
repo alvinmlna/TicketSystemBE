@@ -5,5 +5,6 @@ namespace Core.Interfaces.Services
 	public interface IConfigurationService
 	{
 		Task<int> GetMaxFileSizeConfiguration();
+		Task<string[]> GetAllowedExtensionsConfiguration();
 	}
 }

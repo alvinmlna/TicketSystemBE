@@ -1,6 +1,7 @@
 ﻿using API.DTO;
 using API.Helpers;
 using API.Helpers.Validations;
+using API.Helpers.ValidationsHelper;
 using AutoMapper;
 using BusinessLogic.Services;
 using Core.Entities;
@@ -18,11 +19,15 @@ namespace API.Controllers
 		private readonly IConfigurationService _configurationService;
 		private FileUploaderHelper _fileUploader;
 
+		private readonly TicketValidations _ticketValidations;
+
 		public TicketController(IMapper mapper, ITicketServices ticketServices, IConfigurationService configurationService)
         {
 			_mapper = mapper;
 			_ticketServices = ticketServices;
 			_configurationService = configurationService;
+			_ticketValidations = new TicketValidations(_configurationService);
+
 			_fileUploader = new FileUploaderHelper("G:\\Portofolio\\TicketManagementSystem\\BackEnd\\TicketManagement\\API\\Images\\");
 		}
 
@@ -30,8 +35,7 @@ namespace API.Controllers
 		public async Task<ActionResult> AddTicket([FromForm] TicketDTO ticket)
 		{
 			//Validate
-			var ticketValidation = new TicketValidations(_configurationService);
-			var isValid = ticketValidation.Validate(ticket);
+			var isValid = _ticketValidations.Validate(ticket);
 
 
 			var ticketData = _mapper.Map<TicketDTO, Ticket>(ticket);
