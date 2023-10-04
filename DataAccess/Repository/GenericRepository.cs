@@ -6,7 +6,7 @@ namespace DataAccess.Repository
 {
 	public class GenericRepository<T> : IGenericRepository<T> where T : class
 	{
-		private readonly TicketDBContext dbContext;
+		internal readonly TicketDBContext dbContext;
 
 		public GenericRepository(TicketDBContext ticketContext)
 		{

@@ -18,6 +18,7 @@ namespace API.Extensions
 
 			services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
+			services.AddScoped(typeof(IConfigurationRepository), typeof(ConfigurationRepository));
 
 			//Business Logic
 			services.AddScoped<ITicketServices, TicketServices>();
