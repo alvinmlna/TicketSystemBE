@@ -1,7 +1,9 @@
-﻿namespace Core.Interfaces.Services
+﻿using Core.Entities;
+
+namespace Core.Interfaces.Services
 {
 	public interface IConfigurationService
 	{
-		Task<string> GetConfigurationValue(string key);
+		Task<int> GetMaxFileSizeConfiguration();
 	}
 }

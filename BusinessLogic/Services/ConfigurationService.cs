@@ -1,4 +1,6 @@
-﻿using Core.Entities;
+﻿using BusinessLogic.Helpers;
+using Core.Constants;
+using Core.Entities;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
 
@@ -13,14 +15,37 @@ namespace BusinessLogic.Services
 			_unitOfWork = unitOfWork;
 		}
 
-        public async Task<string> GetConfigurationValue(string key)
+		//Default will be 0 if no result
+		public async Task<int> GetMaxFileSizeConfiguration()
 		{
-			var config = await _unitOfWork.Repository<Configuration>().ListAllAsync();
-			if (config != null)
+			var result = await GetConfigurationValue(ConfigContants.FileUpload_MaxFileSize);
+			if (result == null) return 0;
+
+			if (int.TryParse(result?.ConfigValue, out var integerValue))
 			{
-				return config.FirstOrDefault(x => x.ConfigKey == key)?.ConfigValue;
+				return integerValue;
 			}
-			return "ada";
+			else
+			{
+				return 0;
+			}
+		}
+
+		public async Task<Configuration?> GetConfigurationValue(string key, bool searchCache = true)
+		{
+			if (searchCache)
+			{
+				Configuration fromCache = (Configuration)MemoryCacheHelpers.GetFromMemoryCache(key);
+				if (fromCache != null) return fromCache;
+			}
+
+			var fromDb = await _unitOfWork.ConfigurationRepository.GetByKeyAsync(key);
+            if (fromDb != null)
+			{
+				MemoryCacheHelpers.AddToMemoryCache(key, fromDb, DateTimeOffset.Now.AddHours(1));
+			}
+
+            return fromDb;
 		}
 	}
 }
