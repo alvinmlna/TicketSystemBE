@@ -37,8 +37,10 @@ namespace API.Controllers
 				return ApiResponseHelpers.ValidationError(validationResult);
 
 			var ticketData = _mapper.Map<TicketDTO, Ticket>(ticket);
+
+
+			var fileUploadResult = await _fileUploader.UploadFile(ticket.Attachments);
 			var result = await _ticketServices.AddTicket(ticketData);
-			await _fileUploader.UploadFile(ticket.Attachments);
 
 			if (result == true)
 			{

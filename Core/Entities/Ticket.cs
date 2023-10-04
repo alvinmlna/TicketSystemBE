@@ -40,6 +40,5 @@ namespace Core.Entities
 		[ForeignKey(nameof(Status))]
 		public int StatusId { get; set; }
 		public Status Status { get; set; }
-
 	}
 }

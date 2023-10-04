@@ -18,6 +18,8 @@ namespace DataAccess.Data
 		public DbSet<Configuration> Configurations { get; set; }
 		public DbSet<Status> Statuses { get; set; }
 
+		public DbSet<Attachment> Attachments { get; set; }
+
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			base.OnConfiguring(optionsBuilder);
