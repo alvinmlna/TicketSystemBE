@@ -9,6 +9,7 @@ namespace DataAccess.Data
 		public TicketDBContext(DbContextOptions options) : base(options)
 		{
 		}
+
 		public DbSet<Category> Categories { get; set; }
         public DbSet<Priority> Priorities{ get; set; }
 		public DbSet<Product> Products { get; set; }
