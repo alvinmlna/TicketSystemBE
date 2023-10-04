@@ -11,8 +11,9 @@ namespace API.Common.Response
 		public object ErrorMessage { get; set; }
 
 		public object Result { get; set; }
+		public object Data { get; set; }
 
-        public ApiResponse()
+		public ApiResponse()
         {
         }
 
@@ -21,11 +22,12 @@ namespace API.Common.Response
 			StatusCode = statusCode;
 		}
 
-		public ApiResponse(HttpStatusCode statusCode, object result = null, object errorMessage = null)
+		public ApiResponse(HttpStatusCode statusCode, object result = null, object errorMessage = null, object data = null)
 		{
 			StatusCode = (int)statusCode;
 			Result = result;
 			ErrorMessage = errorMessage;
+			Data = data;
 		}
 
 		public ApiResponse ApiValidationResponse(FluentValidation.Results.ValidationResult validationResult)

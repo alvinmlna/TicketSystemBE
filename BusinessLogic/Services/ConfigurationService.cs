@@ -20,7 +20,7 @@ namespace BusinessLogic.Services
 			var result = await GetConfigurationValue(ConfigContants.FileUpload_AllowedExtensions);
 			if (result == null) return new string[] { };
 
-			return result.ConfigValue.Split(',');
+			return result.ConfigValue.Trim().Split(',');
 		}
 
 		//Default will be 0 if no result

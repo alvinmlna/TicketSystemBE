@@ -36,8 +36,6 @@ namespace API.Controllers
 			if (!validationResult.IsValid)
 				return ApiResponseHelpers.ValidationError(validationResult);
 
-			throw new Exception("ayam");
-
 			var ticketData = _mapper.Map<TicketDTO, Ticket>(ticket);
 			var result = await _ticketServices.AddTicket(ticketData);
 			await _fileUploader.UploadFile(ticket.Attachments);
@@ -48,7 +46,7 @@ namespace API.Controllers
 			} 
 				else
 			{
-				return BadRequest(ticket);
+				return ApiResponseHelpers.ActionFailed(ticket);
 			}
 		}
 	}

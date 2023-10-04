@@ -9,5 +9,11 @@ namespace API.Helpers
 		{
 			return new BadRequestObjectResult(new ApiResponse().ApiValidationResponse(validationResult));
 		}
+
+
+		public static BadRequestObjectResult ActionFailed(object data, string message = "Action failed") 
+		{
+			return new BadRequestObjectResult(new ApiResponse(System.Net.HttpStatusCode.BadRequest, result: message, data: data));
+		}
 	}
 }
