@@ -16,7 +16,12 @@ namespace API.Common.Response
         {
         }
 
-        public ApiResponse(HttpStatusCode statusCode, object result = null, object errorMessage = null)
+		public ApiResponse(int statusCode)
+		{
+			StatusCode = statusCode;
+		}
+
+		public ApiResponse(HttpStatusCode statusCode, object result = null, object errorMessage = null)
 		{
 			StatusCode = (int)statusCode;
 			Result = result;
