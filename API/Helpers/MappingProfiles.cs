@@ -8,7 +8,8 @@ namespace API.Helpers
 	{
 		public MappingProfiles() 
 		{
-			CreateMap<TicketDTO, Ticket>();
+			CreateMap<TicketDTO, Ticket>()
+				.ForMember(x => x.Attachments, o => o.Ignore());
 		}
 
 	}

@@ -24,7 +24,7 @@ namespace API.Helpers
 						continue;
 
 					FileResult result = new FileResult();
-					result.FileName = item.FileName;
+					result.Filename = item.FileName;
 
 					string newFileName = GenerateRandomFileName(item.FileName);
 					bool UploadStatus = await UploadFile(item, newFileName);
@@ -44,7 +44,6 @@ namespace API.Helpers
 
 			return new FileUploadResult()
 			{
-				Status = StatusCodes.Status200OK,
 				FileResults = fileResults
 			};
 		}
@@ -81,17 +80,24 @@ namespace API.Helpers
     }
 
 
-
 	public class FileUploadResult
 	{
-        public int Status { get; set; }
+        public bool Status { 
+			get 
+			{
+				if (FileResults.Count == 0) return false;
+
+				//if error exist return false
+				return !FileResults.Any(x => x.Status == false);
+			} 
+		}
 
 		public List<FileResult> FileResults { get; set; }
     }
 
 	public class FileResult
 	{
-		public string FileName { get; set; }
+		public string Filename { get; set; }
 		public string NewFileName { get; set; }
 		public bool Status { get; set; }
 	}

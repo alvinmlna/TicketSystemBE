@@ -4,6 +4,10 @@ namespace Core.Entities
 {
 	public class Ticket
 	{
+        public Ticket()
+        {
+            Attachments = new HashSet<Attachment>();   
+        }
         public int TicketId { get; set; }
 
         public string Summary { get; set; }
@@ -40,5 +44,8 @@ namespace Core.Entities
 		[ForeignKey(nameof(Status))]
 		public int StatusId { get; set; }
 		public Status Status { get; set; }
+
+
+		public virtual ICollection<Attachment> Attachments{ get; set; }
 	}
 }
