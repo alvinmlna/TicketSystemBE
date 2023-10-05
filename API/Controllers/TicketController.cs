@@ -7,6 +7,9 @@ using Core.Entities;
 using Core.Interfaces.Services;
 using eCommerce.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Sockets;
 
 namespace API.Controllers
@@ -65,6 +68,7 @@ namespace API.Controllers
 			var ticketDTO = _mapper.Map<Ticket, TicketDTO>(ticket);
 			return Ok(ticketDTO);
 		}
+
 
 
 		private async Task<List<Attachment>> UploadFile(List<IFormFile>? iformfiles)
