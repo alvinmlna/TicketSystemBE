@@ -10,6 +10,7 @@ namespace DataAccess.Repository
 		private Hashtable repositories;
 
 		private ConfigurationRepository configurationRepository;
+		private TicketRepository ticketRepository;
 
 		public UnitOfWork(TicketDBContext context)
 		{
@@ -24,7 +25,19 @@ namespace DataAccess.Repository
 				}
 				return configurationRepository; 
 			}
-		} 
+		}
+
+		public ITicketRepository TicketRepository
+		{
+			get
+			{
+				if (ticketRepository == null)
+				{
+					ticketRepository = new TicketRepository(context);
+				}
+				return ticketRepository;
+			}
+		}
 
 		public async Task<int> SaveChanges()
 		{

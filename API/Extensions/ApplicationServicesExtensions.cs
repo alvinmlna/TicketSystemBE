@@ -31,11 +31,14 @@ namespace API.Extensions
 
 			//Business Logic
 			services.AddScoped<ITicketServices, TicketService>();
-			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
-			services.AddScoped(typeof(IConfigurationRepository), typeof(ConfigurationRepository));
 			services.AddScoped<IConfigurationService, ConfigurationService>();
 			services.AddScoped<ILoggingService, LoggingService>();
+
+			//Repository
+			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+			services.AddScoped(typeof(IConfigurationRepository), typeof(ConfigurationRepository));
+			services.AddScoped<ITicketRepository, TicketRepository>();
 
 			//Auto Mapper
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

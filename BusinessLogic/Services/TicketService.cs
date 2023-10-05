@@ -5,7 +5,7 @@ using Serilog;
 
 namespace BusinessLogic.Services
 {
-	public class TicketService : ITicketServices
+	public partial class TicketService : ITicketServices
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly ILoggingService _log;
@@ -38,13 +38,10 @@ namespace BusinessLogic.Services
 			return false;
 		}
 
-
-		private async Task<int> GetSLA(int priorityId)
+		public async Task<Ticket> GetTicketById(int id)
 		{
-			var result = await _unitOfWork.Repository<Priority>().GetByIdAsync(priorityId);
-			if (result != null) return result.ExpectedLimit;
-
-			return 0;
+			return await _unitOfWork.TicketRepository.GetTicketById(id);
 		}
+
 	}
 }

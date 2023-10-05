@@ -36,11 +36,9 @@ namespace API.Controllers
 			_fileUploader = new FileUploaderHelper(AppContext.BaseDirectory + "/images");
 		}
 
-        [HttpGet]
+        [HttpPost]
 		public async Task<ActionResult> AddTicket([FromForm] TicketDTO ticket)
 		{
-			_log.Info("Ticket Controller Log Works!");
-
 			//Validate
 			var validationResult = _ticketValidations.Validate(ticket);
 			if (!validationResult.IsValid)
@@ -52,14 +50,20 @@ namespace API.Controllers
 			var attachments = await UploadFile(ticket.Attachments);
 
 			var result = await _ticketServices.AddTicket(ticketData, attachments);
-			if (result == true)
-			{
-				return Ok(ticket);
-			} 
-				else
-			{
+			if (result == false) 
 				return ApiResponseHelpers.ActionFailed(ticket);
-			}
+
+			return Ok(ticket);
+		}
+
+		[HttpGet("{id}")]
+		public async Task<ActionResult<TicketDTO>> GetTicket(int id)
+		{
+			var ticket = await _ticketServices.GetTicketById(id);
+			if (ticket == null) return NotFound(id);
+
+			var ticketDTO = _mapper.Map<Ticket, TicketDTO>(ticket);
+			return Ok(ticketDTO);
 		}
 
 
