@@ -12,7 +12,9 @@ namespace API.Helpers
 				.ForMember(x => x.Attachments, o => o.Ignore());
 
 			CreateMap<Ticket, TicketDTO>()
+				.ForMember(x => x.TicketIdView, o => o.MapFrom(x => "T" + x.TicketId.ToString().PadLeft(5, '0')))
 				.ForMember(x => x.Attachments, o => o.Ignore())
+				.ForMember(x => x.RaisedBy, o => o.MapFrom(x => x.User.Name))
 				.ForMember(x => x.AttachmentViews, o => o.MapFrom(x => x.Attachments));
 
 			CreateMap<CategoryDTO, Category>().ReverseMap();
@@ -20,6 +22,7 @@ namespace API.Helpers
 			CreateMap<ProductDTO, Product>().ReverseMap();
 			CreateMap<StatusDTO, Status>().ReverseMap();
 			CreateMap<AttachmentDTO, Attachment>().ReverseMap();
+			CreateMap<UserDTO, User>().ReverseMap();
 		}
 
 	}

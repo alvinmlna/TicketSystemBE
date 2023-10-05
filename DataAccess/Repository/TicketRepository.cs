@@ -19,6 +19,7 @@ namespace DataAccess.Repository
 				.Include(x => x.Priority)
 				.Include(x => x.Product)
 				.Include(x => x.Status)
+				.Include(x => x.User)
 				.FirstOrDefaultAsync(x => x.TicketId == id);
 		}
 	}

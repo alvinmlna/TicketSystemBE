@@ -43,6 +43,14 @@ namespace API.Extensions
 			//Auto Mapper
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy", policy =>
+				{
+					policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+				});
+			});
+
 			return services;
 		}
 	}
