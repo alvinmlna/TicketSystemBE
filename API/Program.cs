@@ -13,13 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationServices(builder.Configuration);
 
-//Add serilog
-var logger = new LoggerConfiguration()
-		  .ReadFrom.Configuration(builder.Configuration)
-		  .Enrich.FromLogContext()
-		  .CreateLogger();
 
-builder.Services.AddSingleton<Serilog.ILogger>(logger);
 
 var app = builder.Build();
 
