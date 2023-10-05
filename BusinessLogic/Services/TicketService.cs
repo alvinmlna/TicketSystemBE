@@ -1,16 +1,19 @@
 ﻿using Core.Entities;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
+using Serilog;
 
 namespace BusinessLogic.Services
 {
-	public class TicketServices : ITicketServices
+	public class TicketService : ITicketServices
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly ILoggingService _log;
 
-		public TicketServices(IUnitOfWork unitOfWork)
+		public TicketService(IUnitOfWork unitOfWork, ILoggingService log)
         {
 			_unitOfWork = unitOfWork;
+			_log = log;
 		}
 
         public async Task<bool> AddTicket(Ticket ticket, List<Attachment> attachments)

@@ -22,13 +22,20 @@ namespace API.Extensions
 				o.UseSqlServer(config.GetConnectionString("DefaultConnection"));
 			});
 
-			services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+			//Add serilog
+			var logger = new LoggerConfiguration()
+					  .ReadFrom.Configuration(config)
+					  .Enrich.FromLogContext()
+					  .CreateLogger();
+			services.AddSingleton<Serilog.ILogger>(logger);
+
+			//Business Logic
+			services.AddScoped<ITicketServices, TicketService>();
+			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped(typeof(IConfigurationRepository), typeof(ConfigurationRepository));
 			services.AddScoped<IConfigurationService, ConfigurationService>();
-
-			//Business Logic
-			services.AddScoped<ITicketServices, TicketServices>();
+			services.AddScoped<ILoggingService, LoggingService>();
 
 			//Auto Mapper
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

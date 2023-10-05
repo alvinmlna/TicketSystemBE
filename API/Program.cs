@@ -19,8 +19,7 @@ var logger = new LoggerConfiguration()
 		  .Enrich.FromLogContext()
 		  .CreateLogger();
 
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(logger);
+builder.Services.AddSingleton<Serilog.ILogger>(logger);
 
 var app = builder.Build();
 

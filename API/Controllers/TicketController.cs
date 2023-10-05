@@ -16,22 +16,21 @@ namespace API.Controllers
 		private readonly IMapper _mapper;
 		private readonly ITicketServices _ticketServices;
 		private readonly IConfigurationService _configurationService;
+		private readonly ILoggingService _log;
 		private FileUploaderHelper _fileUploader;
 
 		private readonly TicketValidations _ticketValidations;
 
-
-		private readonly ILogger<TicketController> _logger;
-
 		public TicketController(IMapper mapper, 
 			ITicketServices ticketServices, 
 			IConfigurationService configurationService,
-			ILogger<TicketController> logger)
+			ILoggingService log
+			)
 		{
 			_mapper = mapper;
-			_logger = logger;
 			_ticketServices = ticketServices;
 			_configurationService = configurationService;
+			_log = log;
 			_ticketValidations = new TicketValidations(_configurationService);
 
 			_fileUploader = new FileUploaderHelper(AppContext.BaseDirectory + "/images");
@@ -40,7 +39,7 @@ namespace API.Controllers
         [HttpGet]
 		public async Task<ActionResult> AddTicket([FromForm] TicketDTO ticket)
 		{
-			_logger.LogInformation("Test gun");
+			_log.Info("Ticket Controller Log Works!");
 
 			//Validate
 			var validationResult = _ticketValidations.Validate(ticket);
