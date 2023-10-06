@@ -47,7 +47,7 @@ namespace API.Extensions
 			{
 				options.AddPolicy("CorsPolicy", policy =>
 				{
-					policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+					policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders("content-disposition");
 				});
 			});
 

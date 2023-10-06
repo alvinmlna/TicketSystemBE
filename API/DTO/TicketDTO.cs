@@ -5,21 +5,22 @@ namespace API.DTO
 	public class TicketDTO
 	{
         public int TicketId { get; set; }
-        public string TicketIdView { get; set; }
+        public string TicketIdView { get; set; } = string.Empty;
 
-        [Required]
+		[Required]
 		public string Summary { get; set; }
 
 		public string Description { get; set; } = string.Empty;
-
-		public string AssignedTo { get; set; } = string.Empty;
 
 		public DateTime RaisedDate { get; set; }
 		public DateTime ExpectedDate { get; set; }
 
 
+		public int? AssignedToId { get; set; }
+		public string AssignedTo { get; set; } = string.Empty;
+
 		public int UserId { get; set; }
-		public string RaisedBy { get; set; }
+		public string RaisedBy { get; set; } = string.Empty;
 
 		public int ProductId { get; set; }
         public ProductDTO? Product { get; set; }

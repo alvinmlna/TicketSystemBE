@@ -18,34 +18,38 @@ namespace Core.Entities
 
         public DateTime ExpectedDate { get; set; }
 
-        public string? AssignedTo { get; set; }
+		public int? AssignedToId { get; set; }
 
-        [ForeignKey(nameof(User))]
+		[ForeignKey(nameof(AssignedToId))]
+		public User AssignedTo { get; set; }
+
+
         public int UserId { get; set; }
-        public User User { get; set; }
+
+		[ForeignKey(nameof(UserId))]
+		public User User { get; set; }
 
 
-        [ForeignKey(nameof(Product))]
         public int ProductId { get; set; }
-        public Product Product { get; set; }
+		[ForeignKey(nameof(ProductId))]
+		public Product Product { get; set; }
 
-
-		[ForeignKey(nameof(Category))]
 		public int CategoryId { get; set; }
+
+		[ForeignKey(nameof(CategoryId))]
 		public Category Category { get; set; }
 
 
-
-		[ForeignKey(nameof(Priority))]
 		public int PriorityId { get; set; }
+		[ForeignKey(nameof(PriorityId))]
 		public Priority Priority { get; set; }
 
 
-		[ForeignKey(nameof(Status))]
 		public int StatusId { get; set; }
+		[ForeignKey(nameof(StatusId))]
 		public Status Status { get; set; }
 
 
-		public virtual ICollection<Attachment> Attachments{ get; set; }
+		public virtual ICollection<Attachment> Attachments { get; set; }
 	}
 }

@@ -21,7 +21,7 @@ namespace BusinessLogic.Services
 			ticket.RaisedDate = DateTime.Now;
 
 			int SLA = await GetSLA(ticket.PriorityId);
-			ticket.ExpectedDate = DateTime.Now.AddMinutes(SLA);
+			ticket.ExpectedDate = DateTime.Now.AddHours(SLA);
 
 			foreach (var attachment in attachments)
 			{
