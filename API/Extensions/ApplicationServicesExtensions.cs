@@ -35,6 +35,11 @@ namespace API.Extensions
 			services.AddScoped<IConfigurationService, ConfigurationService>();
 			services.AddScoped<ILoggingService, LoggingService>();
 
+			services.AddScoped<ICategoryService, CategoryService>();
+			services.AddScoped<IPriorityService, PriorityService>();
+			services.AddScoped<IProductService, ProductService>();
+			services.AddScoped<IUserService, UserService>();
+
 			//Repository
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			services.AddScoped(typeof(IConfigurationRepository), typeof(ConfigurationRepository));
