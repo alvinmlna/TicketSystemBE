@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Middleware;
+using Microsoft.AspNetCore.Http.Features;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,13 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<FormOptions>(o =>
+{
+	o.ValueLengthLimit = int.MaxValue;
+	o.MultipartBodyLengthLimit = int.MaxValue;
+	o.MemoryBufferThreshold = int.MaxValue;
+});
 
 builder.Services.AddApplicationServices(builder.Configuration);
 

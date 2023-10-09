@@ -13,15 +13,15 @@ namespace API.Helpers.ValidationsHelper
 
 		public TicketValidations(IConfigurationService configuration)
         {
-			_configuration = configuration;
-			_maxFileSize =  _configuration.GetMaxFileSizeConfiguration().Result;
-			_AllowedExtensions =  _configuration.GetAllowedExtensionsConfiguration().Result;
+			//_configuration = configuration;
+			//_maxFileSize =  _configuration.GetMaxFileSizeConfiguration().Result;
+			//_AllowedExtensions =  _configuration.GetAllowedExtensionsConfiguration().Result;
 		}
 
-		public ValidationResult Validate(TicketDTO ticket)
-		{
-			var ticketValidation = new TicketValidator(_maxFileSize, _AllowedExtensions);
-			return ticketValidation.Validate(ticket);
-		}
+		//public ValidationResult Validate(TicketDTO ticket)
+		//{
+		//	//var ticketValidation = new TicketValidator(_maxFileSize, _AllowedExtensions);
+		//	//return ticketValidation.Validate(ticket);
+		//}
     }
 }

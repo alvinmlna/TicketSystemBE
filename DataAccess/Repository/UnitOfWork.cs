@@ -43,6 +43,10 @@ namespace DataAccess.Repository
 		{
 			return await context.SaveChangesAsync();
 		}
+		public async Task<bool> SaveChangesReturnBool()
+		{
+			return await context.SaveChangesAsync() > 0;
+		}
 
 		public void Dispose()
 		{

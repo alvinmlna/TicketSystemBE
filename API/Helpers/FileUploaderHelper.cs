@@ -17,34 +17,32 @@ namespace API.Helpers
 			}
 		}
 
-		public async Task<FileUploadResult> UploadFile(List<IFormFile>? files)
+		public async Task<FileUploadResult> UploadFile(IFormCollection files)
 		{
 			List<FileResult> fileResults = new List<FileResult>();
 
-			if (files != null)
-			{
-				foreach (var item in files)
+			foreach (var file in files.Files) {
+				if (file.FileName == null || file.FileName.Length == 0)
+					continue;
+
+				FileResult result = new FileResult();
+				result.Filename = file.FileName;
+
+				string newFileName = GenerateRandomFileName(file.FileName);
+				bool UploadStatus = await UploadFile(file, newFileName);
+
+				if (UploadStatus)
 				{
-					if (item.FileName == null || item.FileName.Length == 0)
-						continue;
-
-					FileResult result = new FileResult();
-					result.Filename = item.FileName;
-
-					string newFileName = GenerateRandomFileName(item.FileName);
-					bool UploadStatus = await UploadFile(item, newFileName);
-
-					if (UploadStatus)
-					{
-						result.NewFileName = newFileName;
-						result.Status = true;
-					} else
-					{
-						result.Status = false;
-					}
-
-					fileResults.Add(result);
+					result.NewFileName = newFileName;
+					result.Status = true;
 				}
+				else
+				{
+					result.Status = false;
+				}
+
+				fileResults.Add(result);
+
 			}
 
 			return new FileUploadResult()

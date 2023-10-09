@@ -7,8 +7,7 @@ namespace API.DTO
         public int TicketId { get; set; }
         public string TicketIdView { get; set; } = string.Empty;
 
-		[Required]
-		public string Summary { get; set; }
+		public string Summary { get; set; } = string.Empty;
 
 		public string Description { get; set; } = string.Empty;
 
