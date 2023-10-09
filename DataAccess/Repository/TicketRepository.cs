@@ -1,7 +1,9 @@
-﻿using Core.Entities;
+﻿using Core.DTO.Request;
+using Core.Entities;
 using Core.Interfaces.Repository;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace DataAccess.Repository
 {
@@ -22,6 +24,25 @@ namespace DataAccess.Repository
 				.Include(x => x.User)
 				.Include(x => x.AssignedTo)
 				.FirstOrDefaultAsync(x => x.TicketId == id);
+		}
+
+		public Task<List<Ticket>> ListTicket(ListTicketRequest request)
+		{
+			return dbContext.Set<Ticket>()
+				.Include(x => x.Attachments)
+				.Include(x => x.Category)
+				.Include(x => x.Priority)
+				.Include(x => x.Product)
+				.Include(x => x.Status)
+				.Include(x => x.User)
+				.Include(x => x.AssignedTo)
+				.Where(x => (request.Summary == null || x.Summary.Contains(request.Summary)))
+				.Where(x => (request.ProductId == null || request.ProductId.Contains(x.PriorityId)))
+				.Where(x => (request.CategoryId == null || request.CategoryId.Contains(x.PriorityId)))
+				.Where(x => (request.PriorityId == null || request.PriorityId.Contains(x.PriorityId)))
+				.Where(x => (request.StatusId == null || request.StatusId.Contains(x.PriorityId)))
+				.Where(x => (request.RaisedBy == null || x.PriorityId.Equals(request.RaisedBy)))
+				.ToListAsync();
 		}
 	}
 }

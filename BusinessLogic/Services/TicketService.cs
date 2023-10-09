@@ -1,4 +1,5 @@
 ﻿using Core.DTO.Request;
+using Core.DTO.Response;
 using Core.Entities;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
@@ -53,9 +54,28 @@ namespace BusinessLogic.Services
 			return await _unitOfWork.TicketRepository.GetTicketById(id);
 		}
 
-		public async Task<bool> UploadFile(List<Attachment> attachments, int? ticketId)
+		public async Task<List<ListTicketResponse>> ListTicketResponse(ListTicketRequest listTicketRequest)
 		{
-			var ticket = await _unitOfWork.Repository<Ticket>().GetByIdAsync((int)ticketId);
+			var dbResult =  await _unitOfWork.TicketRepository.ListTicket(listTicketRequest);
+			var result = dbResult.Select(x => new ListTicketResponse
+			{
+				TicketId = x.TicketId,
+				Summary = x.Summary,
+				Product = x.Product?.ProductName,
+				Category = x.Category?.CategoryName,
+				Priority = x.Priority?.PriorityName,
+				Status = x.Status?.Name,
+				RaisedBy = x.User?.Name,
+				RaisedDate = x.RaisedDate,
+				ExpectedDate = x.ExpectedDate
+			}).ToList();
+
+			return result;
+		}
+
+		public async Task<bool> UploadFile(List<Attachment> attachments, int ticketId)
+		{
+			var ticket = await _unitOfWork.Repository<Ticket>().GetByIdAsync(ticketId);
 			if (ticket == null) { return false; }
 
 

@@ -59,13 +59,8 @@ namespace API.Controllers
 		[HttpPut]
 		public async Task<ActionResult> UpdateTicket(EditTicketRequest ticket)
 		{
-			var test = Request.Form;
-
-			//Do validation here
-
 			var result = await _ticketServices.Edit(ticket);
-			if (result != false) return ApiResponseHelpers.ActionFailed(ticket);
-
+			if (result == false) return ApiResponseHelpers.ActionFailed(ticket);
 
 			return Ok(ticket);
 		}
