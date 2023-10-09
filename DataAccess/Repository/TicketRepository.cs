@@ -36,12 +36,12 @@ namespace DataAccess.Repository
 				.Include(x => x.Status)
 				.Include(x => x.User)
 				.Include(x => x.AssignedTo)
-				.Where(x => (request.Summary == null || x.Summary.Contains(request.Summary)))
+				.Where(x => (request.Summary == null || EF.Functions.Like(x.Summary, $"%{request.Summary}%")))
 				.Where(x => (request.ProductId == null || request.ProductId.Contains(x.PriorityId)))
 				.Where(x => (request.CategoryId == null || request.CategoryId.Contains(x.PriorityId)))
 				.Where(x => (request.PriorityId == null || request.PriorityId.Contains(x.PriorityId)))
 				.Where(x => (request.StatusId == null || request.StatusId.Contains(x.PriorityId)))
-				.Where(x => (request.RaisedBy == null || x.PriorityId.Equals(request.RaisedBy)))
+				.Where(x => (request.RaisedBy == null || x.UserId.Equals(request.RaisedBy)))
 				.ToListAsync();
 		}
 	}
