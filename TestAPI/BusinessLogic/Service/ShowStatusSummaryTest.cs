@@ -11,7 +11,7 @@ namespace TestAPI.BusinessLogic.Service
 	public class ShowStatusSummaryTest
 	{
 		static UnitOfWork _unitOfWork = UnitOfWorkHelpers.GetInMemories();
-		private readonly ITicketServices _ticketServices = new TicketService(_unitOfWork, null);
+		private readonly IChartService _chartService = new ChartService(_unitOfWork);
 
 		[TestInitialize]
 		public void Initialize()
@@ -23,12 +23,11 @@ namespace TestAPI.BusinessLogic.Service
 		[TestMethod]
 		public void SHOW_STATUS_SUMMARY()
 		{
-			var ticketSummary = _ticketServices.GetStatusSummaryResponses().Result;
+			var ticketSummary = _chartService.GetStatusSummaryResponses().Result;
 
 			var countOfNew = _unitOfWork.TicketRepository.ListTicket(null).Result.Where(x => x.Status.StatusGroupId == StatusGroupContants.NEW).Count();
 			var countOfOpen = _unitOfWork.TicketRepository.ListTicket(null).Result.Where(x => x.Status.StatusGroupId == StatusGroupContants.OPEN).Count();
 			var countOfExpired = _unitOfWork.TicketRepository.ListTicket(null).Result.Where(x => x.Status.StatusGroupId == StatusGroupContants.OPEN && x.ExpectedDate < DateTime.Now).Count();
-
 
 			Assert.AreEqual(countOfNew, ticketSummary.FirstOrDefault(x => x.Status == "New")?.Count);
 			Assert.AreEqual(countOfOpen, ticketSummary.FirstOrDefault(x => x.Status == "Open")?.Count);

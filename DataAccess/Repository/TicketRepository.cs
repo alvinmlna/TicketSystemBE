@@ -1,4 +1,5 @@
 ﻿using Core.Constants;
+using Core.DTO.InternalDTO;
 using Core.DTO.Request;
 using Core.DTO.Response;
 using Core.Entities;
@@ -12,6 +13,38 @@ namespace DataAccess.Repository
 	{
 		public TicketRepository(TicketDBContext ticketContext) : base(ticketContext)
 		{
+		}
+
+		public async Task<List<Last12MonthTicketFromDB>> GetLast12MonthTickets()
+		{
+			var startDate = DateTime.Now.AddDays(-1 * 365);
+			var allStats = dbContext
+				.Tickets
+				.Where(x => x.RaisedDate > startDate)
+				.GroupBy(x => EF.Functions.DateDiffMonth(startDate, x.RaisedDate));
+
+			var groupped = await allStats.Select(x => new
+			{
+				x.Key,
+				Count = x.Count()
+			})
+			.ToListAsync();
+
+			var result = groupped
+			.Select(x => new Last12MonthTicketFromDB
+			{
+				CreatedDate = startDate.AddMonths(x.Key),
+				Count = x.Count
+			})
+			.OrderBy(x => x.CreatedDate)
+			.ToList();
+
+			if(result.Count > 12)
+			{
+				result.RemoveAt(0);
+			}
+
+			return result;
 		}
 
 		public async Task<List<StatusSummaryResponse>> GetStatusSummary()

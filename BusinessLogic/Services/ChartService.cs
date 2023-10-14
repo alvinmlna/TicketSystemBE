@@ -18,9 +18,18 @@ namespace BusinessLogic.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<Last12MonthTicketsReponse> GetLast12MonthTickets()
+		public async Task<Last12MonthTicketsReponse> GetLast12MonthTickets()
 		{
-			throw new NotImplementedException();
+			var fromDB = await _unitOfWork.TicketRepository.GetLast12MonthTickets();
+
+			Last12MonthTicketsReponse result = new Last12MonthTicketsReponse()
+			{
+				Month = fromDB.Select(x => x.CreatedDate.Month.ToString()).ToArray(),
+				MonthName = fromDB.Select(x => x.CreatedDate.ToString("MMM")).ToArray(),
+				Count = fromDB.Select(x => x.Count.ToString()).ToArray()
+			};
+
+			return result;
 		}
 
 		public async Task<List<StatusSummaryResponse>> GetStatusSummaryResponses()

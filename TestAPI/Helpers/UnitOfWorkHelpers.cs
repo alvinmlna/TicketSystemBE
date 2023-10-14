@@ -21,6 +21,15 @@ namespace TestAPI.Helpers
 			return new UnitOfWork(dBContext);
 		}
 
+		public static TicketDBContext GetActualSqlServerDbContext()
+		{
+			DbContextOptions options = new DbContextOptionsBuilder<TicketDBContext>()
+			.UseSqlServer(new SqlConnection("Server=localhost\\sqlexpress;Database=ticketdb;Trusted_Connection=True;TrustServerCertificate=true;"))
+			.Options;
+
+			return new TicketDBContext(options);
+		}
+
 		static bool dataalreadyInitialize = false;
 		static bool ticketalreadyInitialize = false;
 
