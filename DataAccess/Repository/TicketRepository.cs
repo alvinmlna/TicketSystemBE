@@ -41,6 +41,20 @@ namespace DataAccess.Repository
 					.Where(x => x.Status.StatusGroupId == StatusGroupContants.OPEN && x.ExpectedDate <= DateTime.Now).CountAsync()
 			});
 
+			//Closed
+			response.Add(new StatusSummaryResponse
+			{
+				Status = "Closed",
+				Count = await dbContext.Tickets.AsNoTracking().Where(x => x.Status.StatusGroupId == StatusGroupContants.CLOSED).CountAsync()
+			});
+
+			//Total
+			response.Add(new StatusSummaryResponse
+			{
+				Status = "Total",
+				Count = await dbContext.Tickets.AsNoTracking().CountAsync()
+			});
+
 			return response;
 		}
 

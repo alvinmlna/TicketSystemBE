@@ -17,6 +17,7 @@ namespace API.Controllers
 		private readonly ITicketServices _ticketServices;
 		private readonly IConfigurationService _configurationService;
 		private readonly ILoggingService _log;
+		private readonly IChartService _chartService;
 		private FileUploaderHelper _fileUploader;
 
 		private readonly TicketValidations _ticketValidations;
@@ -24,13 +25,15 @@ namespace API.Controllers
 		public TicketController(IMapper mapper,
 			ITicketServices ticketServices,
 			IConfigurationService configurationService,
-			ILoggingService log
+			ILoggingService log,
+			IChartService chartService
 			)
 		{
 			_mapper = mapper;
 			_ticketServices = ticketServices;
 			_configurationService = configurationService;
 			_log = log;
+			_chartService = chartService;
 			_ticketValidations = new TicketValidations(_configurationService);
 
 		}
@@ -85,7 +88,7 @@ namespace API.Controllers
 		[HttpGet("statussummary")]
 		public async Task<ActionResult<List<StatusSummaryResponse>>> GetStatusSummary()
 		{
-			return await _ticketServices.GetStatusSummaryResponses();
+			return await _chartService.GetStatusSummaryResponses();
 		}
 	}
 }

@@ -40,6 +40,7 @@ namespace API.Extensions
 			services.AddScoped<IProductService, ProductService>();
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IStatusService, StatusService>();
+			services.AddScoped<IChartService, ChartService>();
 
 			//Repository
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
