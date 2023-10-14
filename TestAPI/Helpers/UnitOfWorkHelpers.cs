@@ -10,7 +10,7 @@ namespace TestAPI.Helpers
 {
 	public static class UnitOfWorkHelpers
 	{
-		public static UnitOfWork Get()
+		public static UnitOfWork GetActualSqlServer()
 		{
 			DbContextOptions options = new DbContextOptionsBuilder<TicketDBContext>()
 			.UseSqlServer(new SqlConnection("Server=localhost\\sqlexpress;Database=ticketdb;Trusted_Connection=True;TrustServerCertificate=true;"))
