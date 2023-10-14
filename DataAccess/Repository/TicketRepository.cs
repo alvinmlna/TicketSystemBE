@@ -1,9 +1,10 @@
-﻿using Core.DTO.Request;
+﻿using Core.Constants;
+using Core.DTO.Request;
+using Core.DTO.Response;
 using Core.Entities;
 using Core.Interfaces.Repository;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace DataAccess.Repository
 {
@@ -11,6 +12,36 @@ namespace DataAccess.Repository
 	{
 		public TicketRepository(TicketDBContext ticketContext) : base(ticketContext)
 		{
+		}
+
+		public async Task<List<StatusSummaryResponse>> GetStatusSummary()
+		{
+			List<StatusSummaryResponse> response = new List<StatusSummaryResponse>();
+
+
+			//NEW
+			response.Add(new StatusSummaryResponse
+			{
+				Status = "New",
+				Count = await dbContext.Tickets.AsNoTracking().Where(x => x.Status.StatusGroupId == StatusGroupContants.NEW).CountAsync()
+			});
+
+			//OPEN
+			response.Add(new StatusSummaryResponse
+			{
+				Status = "Open",
+				Count = await dbContext.Tickets.AsNoTracking().Where(x => x.Status.StatusGroupId == StatusGroupContants.OPEN).CountAsync()
+			});
+
+			//EXPIRED
+			response.Add(new StatusSummaryResponse
+			{
+				Status = "Expired",
+				Count = await dbContext.Tickets.AsNoTracking()
+					.Where(x => x.Status.StatusGroupId == StatusGroupContants.OPEN && x.ExpectedDate <= DateTime.Now).CountAsync()
+			});
+
+			return response;
 		}
 
 		public Task<Ticket> GetTicketById(int id)
@@ -26,16 +57,21 @@ namespace DataAccess.Repository
 				.FirstOrDefaultAsync(x => x.TicketId == id);
 		}
 
-		public Task<List<Ticket>> ListTicket(ListTicketRequest request)
+		public Task<List<Ticket>> ListTicket(ListTicketRequest? request)
 		{
-			return dbContext.Set<Ticket>()
+			var mainQuery = dbContext.Set<Ticket>()
 				.Include(x => x.Attachments)
 				.Include(x => x.Category)
 				.Include(x => x.Priority)
 				.Include(x => x.Product)
 				.Include(x => x.Status)
 				.Include(x => x.User)
-				.Include(x => x.AssignedTo)
+				.Include(x => x.AssignedTo);
+
+			if(request == null)
+				return mainQuery.ToListAsync();
+
+			return	mainQuery
 				.Where(x => (request.Summary == null || EF.Functions.Like(x.Summary, $"%{request.Summary}%")))
 				.Where(x => (request.ProductId == null || request.ProductId.Contains(x.ProductId)))
 				.Where(x => (request.CategoryId == null || request.CategoryId.Contains(x.CategoryId)))

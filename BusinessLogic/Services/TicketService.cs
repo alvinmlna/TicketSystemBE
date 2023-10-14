@@ -49,6 +49,11 @@ namespace BusinessLogic.Services
 			return await _unitOfWork.SaveChangesReturnBool();
 		}
 
+		public async Task<List<StatusSummaryResponse>> GetStatusSummaryResponses()
+		{
+			return await _unitOfWork.TicketRepository.GetStatusSummary();
+		}
+
 		public async Task<Ticket> GetTicketById(int id)
 		{
 			return await _unitOfWork.TicketRepository.GetTicketById(id);

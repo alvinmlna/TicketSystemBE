@@ -62,9 +62,9 @@ namespace TestAPI.Helpers
 				dBContext.Priorities.Add(new Priority { PriorityId = 2, PriorityName = "Medium", ExpectedLimit = 120 });
 				dBContext.Priorities.Add(new Priority { PriorityId = 3, PriorityName = "High", ExpectedLimit = 4 });
 
-				dBContext.Statuses.Add(new Status { StatusId = 1, Name = "New", StatusGroupId = 1 });
-				dBContext.Statuses.Add(new Status { StatusId = 2, Name = "Open", StatusGroupId = 2 });
-				dBContext.Statuses.Add(new Status { StatusId = 3, Name = "Closed", StatusGroupId = 3 });
+				dBContext.Statuses.Add(new Status { StatusId = 1, Name = "New", StatusGroupId = 0 });
+				dBContext.Statuses.Add(new Status { StatusId = 2, Name = "Open", StatusGroupId = 1 });
+				dBContext.Statuses.Add(new Status { StatusId = 3, Name = "Closed", StatusGroupId = 2 });
 
 				dBContext.Users.Add(new User { UserId = 1, Name = "Customer", Email = "customer@gmail.com", Password = "12345", RoleId = 1 });
 				dBContext.Users.Add(new User { UserId = 2, Name = "Admin", Email = "admin1@gmail.com", Password = "12345", RoleId = 2 });
@@ -124,12 +124,12 @@ namespace TestAPI.Helpers
 					Summary = "Summary number three",
 					Description = "description",
 					RaisedDate = new DateTime(2023, 10, 23),
-					ExpectedDate = new DateTime(2023, 10, 23),
+					ExpectedDate = new DateTime(2023, 10, 13),
 					UserId = 1,
 					ProductId = 3,
 					CategoryId = 3,
 					PriorityId = 3,
-					StatusId = 3,
+					StatusId = 2,
 					AssignedToId = 1
 				});
 

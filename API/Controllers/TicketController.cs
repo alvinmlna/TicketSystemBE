@@ -80,5 +80,12 @@ namespace API.Controllers
 		{
 			return await _ticketServices.ListTicketResponse(request);
 		}
+
+
+		[HttpGet("statussummary")]
+		public async Task<ActionResult<List<StatusSummaryResponse>>> GetStatusSummary()
+		{
+			return await _ticketServices.GetStatusSummaryResponses();
+		}
 	}
 }
