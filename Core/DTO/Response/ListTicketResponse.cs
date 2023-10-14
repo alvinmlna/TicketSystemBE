@@ -8,6 +8,20 @@
 				return "T" + TicketId.ToString().PadLeft(5, '0');
 			}
 		}
+		public bool? isExpired
+		{
+			get
+			{
+				if (ExpectedDate < DateTime.Now && Status == "Open")
+				{
+					return true;
+				} else
+				{
+					return false;
+				}
+			}
+		}
+
 		public string Summary { get; set; }
 		public string Product { get; set; }
 
