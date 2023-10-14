@@ -23,5 +23,15 @@ namespace API.Controllers
 
 			return Ok(result);
 		}
+
+
+		[HttpGet("category/{type}")]
+		public async Task<ActionResult> GetByCategory(string type)
+		{
+			var result = await _chartService.GetCategoryChart(type);
+			if (result == null) return ApiResponseHelpers.NotFound("No data");
+
+			return Ok(result);
+		}
 	}
 }

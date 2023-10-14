@@ -15,6 +15,33 @@ namespace DataAccess.Repository
 		{
 		}
 
+		public async Task<List<CategoryChartFromDB>> GetCategoryChart(string type)
+		{
+			IQueryable<IGrouping<string, Ticket>> data;
+
+			switch (type)
+			{
+				case "category":
+					data = dbContext.Tickets.Include(x => x.Category).GroupBy(x => x.Category.CategoryName);
+					break;
+				case "product":
+					data = dbContext.Tickets.Include(x => x.Product).GroupBy(x => x.Product.ProductName);
+					break;
+				case "priority":
+					data = dbContext.Tickets.Include(x => x.Priority).GroupBy(x => x.Priority.PriorityName);
+					break;
+				default:
+					data = dbContext.Tickets.Include(x => x.Category).GroupBy(x => x.Category.CategoryName);
+					break;
+			}
+
+			return await data.Select(x => new CategoryChartFromDB
+			{
+				Key = x.Key,
+				Count = x.Count().ToString()
+			}).ToListAsync();
+		}
+
 		public async Task<List<Last12MonthTicketFromDB>> GetLast12MonthTickets()
 		{
 			var startDate = DateTime.Now.AddDays(-1 * 365);

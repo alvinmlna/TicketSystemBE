@@ -1,4 +1,5 @@
 ﻿using Core.DTO.Response;
+using Core.Entities;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
 
@@ -13,9 +14,14 @@ namespace BusinessLogic.Services
 			_unitOfWork = unitOfWork;
 		}
 
-        public Task<CategoryChartResponse> GetCategoryChart(string type)
+        public async Task<CategoryChartResponse> GetCategoryChart(string type)
 		{
-			throw new NotImplementedException();
+			var allData = await _unitOfWork.TicketRepository.GetCategoryChart(type);
+
+			CategoryChartResponse chartResponse = new CategoryChartResponse();
+			chartResponse.Category = allData.Select(x => x.Key).ToArray();
+			chartResponse.Count = allData.Select(x => x.Count).ToArray();
+			return chartResponse;
 		}
 
 		public async Task<Last12MonthTicketsReponse> GetLast12MonthTickets()
