@@ -31,7 +31,7 @@ namespace TestAPI.BusinessLogic.Service
 
 			}).Result;
 
-			Assert.AreEqual(3, result.Count);
+			Assert.AreEqual(4, result.Count);
 		}
 
 		//Filter by summary only
@@ -83,6 +83,31 @@ namespace TestAPI.BusinessLogic.Service
 			Assert.AreEqual(1, result.Count);
 		}
 
+		//Filer by project
+		[TestMethod]
+		public void LIST_TICKET_BY_PRODUCT()
+		{
+			var result = _ticketServices.ListTicketResponse(new ListTicketRequest
+			{
+				ProductId = new int[] { 1 }
+			}).Result;
+
+			Assert.AreEqual(1, result.Count);
+		}
+
+
+		//Filer by project
+		[TestMethod]
+		public void LIST_TICKET_BY_PRODUCT_2()
+		{
+			var result = _ticketServices.ListTicketResponse(new ListTicketRequest
+			{
+				ProductId = new int[] { 4 }
+			}).Result;
+
+			Assert.AreEqual(1, result.Count);
+		}
+
 		//filter by status id 3 & 2
 		[TestMethod]
 		public void LIST_TICKET_BY_STATUS()
@@ -101,7 +126,7 @@ namespace TestAPI.BusinessLogic.Service
 		{
 			var result = _ticketServices.ListTicketResponse(new ListTicketRequest
 			{
-				RaisedBy = 1
+				RaisedBy = new int[] { 1 }
 			}).Result;
 
 			Assert.AreEqual(3, result.Count);
@@ -119,7 +144,7 @@ namespace TestAPI.BusinessLogic.Service
 				CategoryId = new int[] { 1 },
 				PriorityId = new int[] { 1 },
 				StatusId = new int[] { 1 },
-				RaisedBy = 1
+				RaisedBy = new int[] { 1 }
 			}).Result;
 
 			Assert.AreEqual(0, result.Count);
@@ -137,7 +162,7 @@ namespace TestAPI.BusinessLogic.Service
 				CategoryId = new int[] { 1 },
 				PriorityId = new int[] { 1 },
 				StatusId = new int[] { 1 },
-				RaisedBy = 1
+				RaisedBy = new int[] { 1 }
 			}).Result;
 
 			Assert.AreEqual(1, result.Count);
@@ -155,7 +180,7 @@ namespace TestAPI.BusinessLogic.Service
 				CategoryId = new int[] { 1 },
 				PriorityId = new int[] { 1 },
 				StatusId = new int[] { 1 },
-				RaisedBy = 1
+				RaisedBy = new int[] { 1 }
 			}).Result;
 
 			Assert.AreEqual(1, result.Count);

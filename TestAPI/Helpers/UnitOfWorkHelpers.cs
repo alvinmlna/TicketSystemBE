@@ -55,7 +55,8 @@ namespace TestAPI.Helpers
 				//Product
 				dBContext.Products.Add(new Product { ProductId = 1, ProductName = "My Applications 1" }) ;
 				dBContext.Products.Add(new Product { ProductId = 2, ProductName = "My Applications 2" }) ;
-				dBContext.Products.Add(new Product { ProductId = 3, ProductName = "My Applications 3" }) ;
+				dBContext.Products.Add(new Product { ProductId = 3, ProductName = "My Applications 3" });
+				dBContext.Products.Add(new Product { ProductId = 4, ProductName = "My Applications 4" });
 
 				dBContext.Priorities.Add(new Priority { PriorityId = 1, PriorityName = "Low", ExpectedLimit = 240 });
 				dBContext.Priorities.Add(new Priority { PriorityId = 2, PriorityName = "Medium", ExpectedLimit = 120 });
@@ -130,6 +131,24 @@ namespace TestAPI.Helpers
 					PriorityId = 3,
 					StatusId = 3,
 					AssignedToId = 1
+				});
+
+
+
+				dBContext.Tickets.Add(
+				new Ticket
+				{
+					TicketId = 4,
+					Summary = "Summary number Four",
+					Description = "description",
+					RaisedDate = new DateTime(2023, 10, 23),
+					ExpectedDate = new DateTime(2023, 10, 23),
+					UserId = 2,
+					ProductId = 4,
+					CategoryId = 3,
+					PriorityId = 2,
+					StatusId = 1,
+					AssignedToId = null
 				});
 
 				dBContext.SaveChanges();

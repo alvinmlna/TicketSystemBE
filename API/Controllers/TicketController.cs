@@ -3,12 +3,11 @@ using API.Helpers;
 using API.Helpers.ValidationsHelper;
 using AutoMapper;
 using Core.DTO.Request;
+using Core.DTO.Response;
 using Core.Entities;
 using Core.Interfaces.Services;
 using eCommerce.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
-using System.Net.Sockets;
 
 namespace API.Controllers
 {
@@ -74,6 +73,12 @@ namespace API.Controllers
 
 			var ticketDTO = _mapper.Map<Ticket, TicketDTO>(ticket);
 			return Ok(ticketDTO);
+		}
+
+		[HttpGet]
+		public async Task<ActionResult<List<ListTicketResponse>>> GetTickets([FromQuery] ListTicketRequest request)
+		{
+			return await _ticketServices.ListTicketResponse(request);
 		}
 	}
 }
