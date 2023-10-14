@@ -6,4 +6,11 @@
 		public const int OPEN = 1;
 		public const int CLOSED = 2;
 	}
+
+	public class DefaultStatusConstants
+	{
+		public const int NEW = 0;
+		public const int OPEN = 1;
+		public const int CLOSED = 2;
+	}
 }

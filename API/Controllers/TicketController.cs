@@ -36,23 +36,23 @@ namespace API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> AddTicket([FromForm] TicketDTO ticket)
+		public async Task<ActionResult> AddTicket(AddTicketRequest ticket)
 		{
 			//Validate
 			//var validationResult = _ticketValidations.Validate(ticket);
 			//if (!validationResult.IsValid)
 			//	return ApiResponseHelpers.ValidationError(validationResult);
 
-			var ticketData = _mapper.Map<TicketDTO, Ticket>(ticket);
-
 			//Upload files and map to attachments class
 			//var attachments = await UploadFile(ticket.Attachments);
 
-			var result = await _ticketServices.AddTicket(ticketData, new List<Attachment>());
-			if (result == false)
+			var result = await _ticketServices.AddTicket(ticket);
+			if (result == null)
 				return ApiResponseHelpers.ActionFailed(ticket);
 
-			return Ok(ticket);
+
+			var mappedResult = _mapper.Map<Ticket, TicketDTO>(result);
+			return Ok(mappedResult);
 		}
 
 		[HttpPut]

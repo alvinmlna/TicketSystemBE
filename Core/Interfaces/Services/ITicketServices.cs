@@ -6,10 +6,9 @@ namespace Core.Interfaces.Services
 {
 	public interface ITicketServices
 	{
-		Task<bool> AddTicket(Ticket ticket, List<Attachment> attachments);
+		Task<Ticket?> AddTicket(AddTicketRequest request);
 
 		Task<bool> Edit(EditTicketRequest ticket);
-
 
 		Task<bool> UploadFile(List<Attachment> attachments, int ticketId);
 

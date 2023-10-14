@@ -1,4 +1,5 @@
-﻿using Core.DTO.Request;
+﻿using Core.Constants;
+using Core.DTO.Request;
 using Core.DTO.Response;
 using Core.Entities;
 using Core.Interfaces.Repository;
@@ -19,9 +20,18 @@ namespace BusinessLogic.Services
 			_log = log;
 		}
 
-        public async Task<bool> AddTicket(Ticket ticket, List<Attachment> attachments)
+        public async Task<Ticket?> AddTicket(AddTicketRequest request)
 		{
+			Ticket ticket = new Ticket();
+
+			ticket.UserId = request.UserId;
+			ticket.ProductId = request.ProductId;
+			ticket.CategoryId = request.CategoryId;
+			ticket.PriorityId = request.PriorityId;
+			ticket.Summary = request.Summary;
+			ticket.Description = request.Description;
 			ticket.RaisedDate = DateTime.Now;
+			ticket.StatusId = DefaultStatusConstants.NEW;
 
 			int SLA = await GetSLA(ticket.PriorityId);
 			ticket.ExpectedDate = DateTime.Now.AddHours(SLA);
@@ -29,9 +39,9 @@ namespace BusinessLogic.Services
 			_unitOfWork.Repository<Ticket>().Add(ticket);
 			int result = await _unitOfWork.SaveChanges();
 			if (result > 0)
-				return true;
+				return ticket;
 
-			return false;
+			return null;
 		}
 
 		public async Task<bool> Edit(EditTicketRequest ticket)
