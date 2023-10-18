@@ -17,7 +17,7 @@ namespace BusinessLogic.Services
         public async Task<IReadOnlyList<User>> GetAllAdminAsync()
 		{
 			var result = await _unitOfWork.Repository<User>().ListAllAsync();
-			return result.Where(x => x.RoleId == RoleConstants.Admin).ToList();
+			return result.Where(x => x.RoleId == (int)RoleEnum.Admin).ToList();
 		}
 
 		public async Task<IReadOnlyList<User>> GetAllAsync()

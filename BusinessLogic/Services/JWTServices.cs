@@ -1,4 +1,5 @@
-﻿using Core.DTO.InternalDTO;
+﻿using Core.Constants;
+using Core.DTO.InternalDTO;
 using Core.Entities;
 using Core.Interfaces.Services;
 using Microsoft.Extensions.Options;
@@ -22,7 +23,7 @@ namespace BusinessLogic.Services
 			List<Claim> claims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Name, user.Email),
-				new Claim(ClaimTypes.Role, user.RoleId.ToString())
+				new Claim(ClaimTypes.Role, Enum.GetName(typeof(RoleEnum), user.RoleId))
 			};
 
 			string? tokenSettings = _options.Value.Token;

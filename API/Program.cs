@@ -1,7 +1,6 @@
 using API.Extensions;
 using API.Middleware;
 using Microsoft.AspNetCore.Http.Features;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +19,8 @@ builder.Services.Configure<FormOptions>(o =>
 });
 
 builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddSecurityServices(builder.Configuration);
+
 
 var app = builder.Build();
 
@@ -34,6 +35,7 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 

@@ -1,8 +1,8 @@
 ﻿namespace Core.Constants
 {
-	public class RoleConstants
+	public enum RoleEnum
 	{
-		public const int Customer = 1;
-		public const int Admin = 2;
+		Customer = 1,
+		Admin = 2
 	}
 }

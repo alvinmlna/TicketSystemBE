@@ -7,10 +7,12 @@ using Core.DTO.Response;
 using Core.Entities;
 using Core.Interfaces.Services;
 using eCommerce.API.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+	[Authorize]
 	public class TicketController : BaseApiController
 	{
 		private readonly IMapper _mapper;
