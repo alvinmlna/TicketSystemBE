@@ -78,7 +78,9 @@ namespace BusinessLogic.Services
 				RaisedBy = x.User?.Name,
 				RaisedDate = x.RaisedDate,
 				ExpectedDate = x.ExpectedDate
-			}).ToList();
+			})
+			.OrderByDescending(x => x.RaisedDate)
+			.ToList();
 
 			return result;
 		}

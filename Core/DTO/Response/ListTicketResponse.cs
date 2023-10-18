@@ -12,10 +12,11 @@
 		{
 			get
 			{
-				if (ExpectedDate < DateTime.Now && Status == "Open")
+				if (ExpectedDate < DateTime.Now && (Status == "Open" || Status == "New"))
 				{
 					return true;
-				} else
+				} 
+					else
 				{
 					return false;
 				}

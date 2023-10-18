@@ -41,14 +41,6 @@ namespace API.Controllers
 		[HttpPost]
 		public async Task<ActionResult> AddTicket(AddTicketRequest ticket)
 		{
-			//Validate
-			//var validationResult = _ticketValidations.Validate(ticket);
-			//if (!validationResult.IsValid)
-			//	return ApiResponseHelpers.ValidationError(validationResult);
-
-			//Upload files and map to attachments class
-			//var attachments = await UploadFile(ticket.Attachments);
-
 			var result = await _ticketServices.AddTicket(ticket);
 			if (result == null)
 				return ApiResponseHelpers.ActionFailed(ticket);
@@ -90,5 +82,20 @@ namespace API.Controllers
 		{
 			return await _chartService.GetStatusSummaryResponses();
 		}
+
+
+
+		[HttpGet("myticket")]
+		public async Task<ActionResult<List<ListTicketResponse>>> GetMyTickets()
+		{
+			//TODO: GETTING USER FROM AUTORIZATION
+			ListTicketRequest request = new ListTicketRequest()
+			{
+				RaisedBy = new int[] { 1 }
+			};
+
+			return await _ticketServices.ListTicketResponse(request);
+		}
+
 	}
 }
