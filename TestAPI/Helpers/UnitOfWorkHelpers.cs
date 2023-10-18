@@ -75,10 +75,10 @@ namespace TestAPI.Helpers
 				dBContext.Statuses.Add(new Status { StatusId = 2, Name = "Open", StatusGroupId = 1 });
 				dBContext.Statuses.Add(new Status { StatusId = 3, Name = "Closed", StatusGroupId = 2 });
 
-				dBContext.Users.Add(new User { UserId = 1, Name = "Customer", Email = "customer@gmail.com", Password = "12345", RoleId = 1 });
-				dBContext.Users.Add(new User { UserId = 2, Name = "Admin", Email = "admin1@gmail.com", Password = "12345", RoleId = 2 });
-				dBContext.Users.Add(new User { UserId = 3, Name = "Admin 2", Email = "admin2@gmail.com", Password = "12345", RoleId = 2 });
-				dBContext.Users.Add(new User { UserId = 4, Name = "Admin 3", Email = "admin2@gmail.com", Password = "12345", RoleId = 2 });
+				dBContext.Users.Add(new User { UserId = 1, Name = "Customer", Email = "customer@gmail.com", RoleId = 1 });
+				dBContext.Users.Add(new User { UserId = 2, Name = "Admin", Email = "admin1@gmail.com", RoleId = 2 });
+				dBContext.Users.Add(new User { UserId = 3, Name = "Admin 2", Email = "admin2@gmail.com", RoleId = 2 });
+				dBContext.Users.Add(new User { UserId = 4, Name = "Admin 3", Email = "admin2@gmail.com", RoleId = 2 });
 
 				dBContext.SaveChanges();
 			}

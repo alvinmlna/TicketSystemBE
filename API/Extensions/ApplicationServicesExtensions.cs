@@ -1,6 +1,7 @@
 ﻿using API.DTO;
 using API.Helpers.Validations;
 using BusinessLogic.Services;
+using Core.DTO.InternalDTO;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
 using DataAccess.Data;
@@ -41,6 +42,10 @@ namespace API.Extensions
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IStatusService, StatusService>();
 			services.AddScoped<IChartService, ChartService>();
+			services.AddScoped<IAuthService, AuthService>();
+			services.AddScoped<IJWTServices, JWTServices>();
+
+			services.Configure<MyConfigurations>(config.GetSection("MyConfigurations"));
 
 			//Repository
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
