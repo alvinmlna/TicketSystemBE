@@ -1,4 +1,6 @@
-﻿using API.DTO;
+﻿using API.Common.Response;
+using API.DTO;
+using API.Helpers;
 using Core.DTO.Request;
 using Core.Entities;
 using Core.Interfaces.Services;
@@ -6,6 +8,7 @@ using eCommerce.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Cryptography;
 
@@ -29,14 +32,18 @@ namespace API.Controllers
 		}
 
 		[HttpPost("login")]
-		public async Task<ActionResult<string>> Login(AuthRequest request)
+		public async Task<ActionResult<ApiResponse>> Login(AuthRequest request)
 		{
 			var loginStatus = await _authService.Login(request);
 
 			if (loginStatus.IsSuccess == false)
 				return BadRequest(loginStatus.Message);
 
-			return Ok(loginStatus.Message);
+			return new ApiResponse
+			{
+				StatusCode = (int)HttpStatusCode.OK,
+				Data = loginStatus.Message
+			};
 		}
 	}
 }
