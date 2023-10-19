@@ -1,16 +1,10 @@
 ﻿using API.Common.Response;
-using API.DTO;
-using API.Helpers;
 using Core.DTO.Request;
 using Core.Entities;
 using Core.Interfaces.Services;
 using eCommerce.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System.Net;
-using System.Security.Claims;
-using System.Security.Cryptography;
 
 namespace API.Controllers
 {

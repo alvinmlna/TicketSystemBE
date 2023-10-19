@@ -13,7 +13,7 @@ namespace TestAPI.BusinessLogic.Service
 	public class TicketService_ListTicket
 	{
 		static UnitOfWork _unitOfWork = UnitOfWorkHelpers.GetInMemories();
-		private readonly ITicketServices _ticketServices = new TicketService(_unitOfWork, null);
+		private readonly ITicketServices _ticketServices = new TicketService(_unitOfWork, null, null);
 
 		[TestInitialize]
 		public void Initialize()

@@ -15,5 +15,8 @@ namespace Core.Interfaces.Services
 		Task<Ticket> GetTicketById(int id);
 
 		Task<List<ListTicketResponse>> ListTicketResponse(ListTicketRequest listTicketRequest);
-	}
+        Task<List<ListTicketResponse>> ListOfMyTickets();
+
+
+    }
 }

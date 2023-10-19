@@ -9,10 +9,10 @@ namespace BusinessLogic.Services
 	{
 		private readonly IUnitOfWork _unitOfWork;
 
-		public UserService(IUnitOfWork unitOfWork)
+        public UserService(IUnitOfWork unitOfWork)
         {
 			_unitOfWork = unitOfWork;
-		}
+        }
 
         public async Task<IReadOnlyList<User>> GetAllAdminAsync()
 		{
@@ -23,6 +23,11 @@ namespace BusinessLogic.Services
 		public async Task<IReadOnlyList<User>> GetAllAsync()
 		{
 			return await _unitOfWork.Repository<User>().ListAllAsync();
-		}
-	}
+        }
+
+        public async Task<User> GetUserById(int id)
+        {
+            return await _unitOfWork.Repository<User>().GetByIdAsync(id);
+        }
+    }
 }

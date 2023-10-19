@@ -18,25 +18,22 @@ namespace API.Controllers
 		private readonly IMapper _mapper;
 		private readonly ITicketServices _ticketServices;
 		private readonly IConfigurationService _configurationService;
-		private readonly ILoggingService _log;
-		private readonly IChartService _chartService;
-		private FileUploaderHelper _fileUploader;
+        private readonly IUserService _userService;
+        private readonly IChartService _chartService;
 
 		private readonly TicketValidations _ticketValidations;
 
 		public TicketController(IMapper mapper,
 			ITicketServices ticketServices,
 			IConfigurationService configurationService,
-			ILoggingService log,
-			IChartService chartService
+			IUserService userService
 			)
 		{
 			_mapper = mapper;
 			_ticketServices = ticketServices;
 			_configurationService = configurationService;
-			_log = log;
-			_chartService = chartService;
-			_ticketValidations = new TicketValidations(_configurationService);
+            _userService = userService;
+            _ticketValidations = new TicketValidations(_configurationService);
 
 		}
 
@@ -90,13 +87,7 @@ namespace API.Controllers
 		[HttpGet("myticket")]
 		public async Task<ActionResult<List<ListTicketResponse>>> GetMyTickets()
 		{
-			//TODO: GETTING USER FROM AUTORIZATION
-			ListTicketRequest request = new ListTicketRequest()
-			{
-				RaisedBy = new int[] { 1 }
-			};
-
-			return await _ticketServices.ListTicketResponse(request);
+			return await _ticketServices.ListOfMyTickets();
 		}
 
 	}

@@ -8,6 +8,7 @@ using DataAccess.Data;
 using DataAccess.Repository;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using System;
 using System.Security.AccessControl;
@@ -45,7 +46,9 @@ namespace API.Extensions
 			services.AddScoped<IAuthService, AuthService>();
 			services.AddScoped<IJWTServices, JWTServices>();
 
-			services.Configure<MyConfigurations>(config.GetSection("MyConfigurations"));
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.Configure<MyConfigurations>(config.GetSection("MyConfigurations"));
 
 			//Repository
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));

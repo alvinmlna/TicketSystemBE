@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace BusinessLogic.Services
 {
-	public class JWTServices : IJWTServices
+    public class JWTServices : IJWTServices
 	{
 		private readonly IOptions<MyConfigurations> _options;
 
@@ -22,6 +22,7 @@ namespace BusinessLogic.Services
 		{
 			List<Claim> claims = new List<Claim>
 			{
+				new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
 				new Claim(ClaimTypes.Name, user.Email),
 				new Claim(ClaimTypes.Role, Enum.GetName(typeof(RoleEnum), user.RoleId))
 			};
@@ -42,5 +43,5 @@ namespace BusinessLogic.Services
 
 			return jwt;
 		}
-	}
+    }
 }
