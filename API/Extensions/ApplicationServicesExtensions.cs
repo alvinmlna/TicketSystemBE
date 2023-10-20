@@ -45,6 +45,7 @@ namespace API.Extensions
 			services.AddScoped<IChartService, ChartService>();
 			services.AddScoped<IAuthService, AuthService>();
 			services.AddScoped<IJWTServices, JWTServices>();
+			services.AddScoped<IDiscussionService, DiscussionService>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
