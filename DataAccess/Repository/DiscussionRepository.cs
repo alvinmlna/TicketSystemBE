@@ -13,7 +13,9 @@ namespace DataAccess.Repository
 
         public async Task<IReadOnlyList<Discussion>> GetDiscussionByTicketId(int ticketId)
         {
-            return await dbContext.Set<Discussion>().Where(x => x.TicketId == ticketId).ToListAsync();
+            return await dbContext.Set<Discussion>().Where(x => x.TicketId == ticketId)
+                .OrderBy(x => x.DateSending)
+                .ToListAsync();
         }
     }
 }
