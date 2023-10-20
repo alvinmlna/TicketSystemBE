@@ -13,12 +13,12 @@ namespace DataAccess.Data
 		public DbSet<Category> Categories { get; set; }
         public DbSet<Priority> Priorities{ get; set; }
 		public DbSet<Product> Products { get; set; }
-		public DbSet<Ticket> Tickets { get; set; }
+		public DbSet<Discussion> Tickets { get; set; }
 		public DbSet<User> Users { get; set; }
 		public DbSet<Configuration> Configurations { get; set; }
 		public DbSet<Status> Statuses { get; set; }
-
 		public DbSet<Attachment> Attachments { get; set; }
+		public DbSet<Discussion> Discussions { get; set; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{

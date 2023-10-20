@@ -12,7 +12,7 @@ namespace TestAPI.Generator
 	public class DataSeedGenerator
 	{
 		static UnitOfWork _unitOfWork = UnitOfWorkHelpers.GetActualSqlServer();
-		private readonly ITicketServices _ticketServices = new TicketService(_unitOfWork, null);
+		private readonly ITicketServices _ticketServices = new TicketService(_unitOfWork, null, null);
 
 		[TestMethod]
 		public void Generate()
@@ -24,7 +24,7 @@ namespace TestAPI.Generator
 			for (int i = 0; i < 100; i++)
 			{
 				var raisedDate = date.Next();
-				Ticket newTicket = new Ticket()
+				Discussion newTicket = new Discussion()
 				{
 					UserId = 1,
 					ProductId = rand.Next(1, 4),

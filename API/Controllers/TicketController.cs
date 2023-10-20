@@ -43,7 +43,7 @@ namespace API.Controllers
 				return ApiResponseHelpers.ActionFailed(ticket);
 
 
-			var mappedResult = _mapper.Map<Ticket, TicketDTO>(result);
+			var mappedResult = _mapper.Map<Discussion, TicketDTO>(result);
 			return Ok(mappedResult);
 		}
 
@@ -63,7 +63,7 @@ namespace API.Controllers
 			var ticket = await _ticketServices.GetTicketById(id);
 			if (ticket == null) return NotFound(id);
 
-			var ticketDTO = _mapper.Map<Ticket, TicketDTO>(ticket);
+			var ticketDTO = _mapper.Map<Discussion, TicketDTO>(ticket);
 			return Ok(ticketDTO);
 		}
 

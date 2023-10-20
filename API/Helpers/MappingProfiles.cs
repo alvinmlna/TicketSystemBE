@@ -8,11 +8,11 @@ namespace API.Helpers
 	{
 		public MappingProfiles() 
 		{
-			CreateMap<TicketDTO, Ticket>()
+			CreateMap<TicketDTO, Discussion>()
 				.ForMember(x => x.AssignedTo, o => o.Ignore())
 				.ForMember(x => x.Attachments, o => o.Ignore());
 
-			CreateMap<Ticket, TicketDTO>()
+			CreateMap<Discussion, TicketDTO>()
 				.ForMember(x => x.TicketIdView, o => o.MapFrom(x => "T" + x.TicketId.ToString().PadLeft(5, '0')))
 				.ForMember(x => x.Attachments, o => o.Ignore())
 				.ForMember(x => x.RaisedBy, o => o.MapFrom(x => x.User.Name))
