@@ -39,5 +39,14 @@ namespace API.Controllers
 
 			return Ok(loginStatus);
 		}
+
+		[HttpGet, Authorize]
+		public async Task<ActionResult<DefaultResponse>> AuthAccount()
+		{
+			return new DefaultResponse()
+			{
+				IsSuccess = true
+			};
+		}
     }
 }
