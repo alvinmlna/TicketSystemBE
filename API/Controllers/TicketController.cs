@@ -18,21 +18,19 @@ namespace API.Controllers
 		private readonly IMapper _mapper;
 		private readonly ITicketServices _ticketServices;
 		private readonly IConfigurationService _configurationService;
-        private readonly IUserService _userService;
         private readonly IChartService _chartService;
-
 		private readonly TicketValidations _ticketValidations;
 
 		public TicketController(IMapper mapper,
 			ITicketServices ticketServices,
 			IConfigurationService configurationService,
-			IUserService userService
+			IChartService chartService
 			)
 		{
 			_mapper = mapper;
 			_ticketServices = ticketServices;
 			_configurationService = configurationService;
-            _userService = userService;
+            _chartService = chartService;
             _ticketValidations = new TicketValidations(_configurationService);
 
 		}
