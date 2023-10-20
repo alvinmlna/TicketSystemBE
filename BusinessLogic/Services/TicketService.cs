@@ -27,9 +27,9 @@ namespace BusinessLogic.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Discussion?> AddTicket(AddTicketRequest request)
+        public async Task<Ticket?> AddTicket(AddTicketRequest request)
 		{
-			Discussion ticket = new Discussion();
+            Ticket ticket = new Ticket();
 
 			ticket.UserId = request.UserId;
 			ticket.ProductId = request.ProductId;
@@ -43,7 +43,7 @@ namespace BusinessLogic.Services
 			int SLA = await GetSLA(ticket.PriorityId);
 			ticket.ExpectedDate = DateTime.Now.AddHours(SLA);
 
-			_unitOfWork.Repository<Discussion>().Add(ticket);
+			_unitOfWork.Repository<Ticket>().Add(ticket);
 			int result = await _unitOfWork.SaveChanges();
 			if (result > 0)
 				return ticket;
@@ -53,7 +53,7 @@ namespace BusinessLogic.Services
 
 		public async Task<bool> Edit(EditTicketRequest ticket)
 		{
-			var toUpdate = await _unitOfWork.Repository<Discussion>().GetByIdAsync(ticket.TicketId);
+			var toUpdate = await _unitOfWork.Repository<Ticket>().GetByIdAsync(ticket.TicketId);
 			if (toUpdate == null) { return false; }
 
 			toUpdate.AssignedToId = ticket.AssignedToId;
@@ -62,11 +62,11 @@ namespace BusinessLogic.Services
 			toUpdate.PriorityId = ticket.PriorityId;
 			toUpdate.StatusId = ticket.StatusId;
 
-			_unitOfWork.Repository<Discussion>().Update(toUpdate);
+			_unitOfWork.Repository<Ticket>().Update(toUpdate);
 			return await _unitOfWork.SaveChangesReturnBool();
 		}
 
-		public async Task<Discussion> GetTicketById(int id)
+		public async Task<Ticket> GetTicketById(int id)
 		{
 			return await _unitOfWork.TicketRepository.GetTicketById(id);
 		}
@@ -105,7 +105,7 @@ namespace BusinessLogic.Services
 
 		public async Task<bool> UploadFile(List<Attachment> attachments, int ticketId)
 		{
-			var ticket = await _unitOfWork.Repository<Discussion>().GetByIdAsync(ticketId);
+			var ticket = await _unitOfWork.Repository<Ticket>().GetByIdAsync(ticketId);
 			if (ticket == null) { return false; }
 
 
@@ -115,7 +115,7 @@ namespace BusinessLogic.Services
 				ticket.Attachments.Add(attachment);
 			}
 
-			_unitOfWork.Repository<Discussion>().Update(ticket);
+			_unitOfWork.Repository<Ticket>().Update(ticket);
 			return await _unitOfWork.SaveChangesReturnBool();
 		}
 	}

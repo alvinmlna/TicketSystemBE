@@ -11,7 +11,7 @@ namespace API.Helpers
 		}
 
 
-		public static BadRequestObjectResult ActionFailed(object data, string message = "Action failed") 
+		public static BadRequestObjectResult BadRequest(object data, string message = "Bad request") 
 		{
 			return new BadRequestObjectResult(new ApiResponse(System.Net.HttpStatusCode.BadRequest, result: message, data: data));
 		}

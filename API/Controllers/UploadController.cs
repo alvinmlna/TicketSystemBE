@@ -25,12 +25,12 @@ namespace API.Controllers
 			var ticketId = formCollection.Keys;
 
 			var attachments = await UploadFile(files);
-			if (attachments == null) return ApiResponseHelpers.ActionFailed(files);
+			if (attachments == null) return ApiResponseHelpers.BadRequest(files);
 
 			//submit file to service
 			var result = await _ticketServices.UploadFile(attachments, ticketid);
 			if (result == false)
-				return ApiResponseHelpers.ActionFailed(null);
+				return ApiResponseHelpers.BadRequest(null);
 
 			return Ok();
 		}
@@ -44,7 +44,7 @@ namespace API.Controllers
 
 			var attachments = await UploadFile(files);
 
-			if (attachments == null) return ApiResponseHelpers.ActionFailed(files);
+			if (attachments == null) return ApiResponseHelpers.BadRequest(files);
 
 			//submit file to service
 			//var result = await _ticketServices.UploadFile(attachments, 2007);

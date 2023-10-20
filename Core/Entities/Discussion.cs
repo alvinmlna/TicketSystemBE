@@ -10,15 +10,13 @@ namespace Core.Entities
         public DateTime DateSending { get; set; }
         public string Message { get; set; }
 
-
         public int UserId { get; set; }
-
         [ForeignKey(nameof(UserId))]
         public User User { get; set; }
 
 
         [ForeignKey(nameof(Ticket))]
         public int TicketId { get; set; }
-        public Discussion Ticket { get; set; }
+        public Ticket Ticket { get; set; }
     }
 }

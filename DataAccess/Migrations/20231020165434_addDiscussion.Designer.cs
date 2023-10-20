@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(TicketDBContext))]
-    [Migration("20231020154905_addDiscussion")]
+    [Migration("20231020165434_addDiscussion")]
     partial class addDiscussion
     {
         /// <inheritdoc />
@@ -295,7 +295,7 @@ namespace DataAccess.Migrations
                     b.HasOne("Core.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Ticket");

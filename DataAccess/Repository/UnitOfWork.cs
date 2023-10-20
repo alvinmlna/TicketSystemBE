@@ -11,6 +11,7 @@ namespace DataAccess.Repository
 
 		private ConfigurationRepository configurationRepository;
 		private TicketRepository ticketRepository;
+		private DiscussionRepository discussionRepository;
 
 		public UnitOfWork(TicketDBContext context)
 		{
@@ -39,7 +40,19 @@ namespace DataAccess.Repository
 			}
 		}
 
-		public async Task<int> SaveChanges()
+        public IDiscussionRepository DiscussionRepository
+        {
+            get
+            {
+                if (discussionRepository == null)
+                {
+                    discussionRepository = new DiscussionRepository(context);
+                }
+                return discussionRepository;
+            }
+        }
+
+        public async Task<int> SaveChanges()
 		{
 			return await context.SaveChangesAsync();
 		}

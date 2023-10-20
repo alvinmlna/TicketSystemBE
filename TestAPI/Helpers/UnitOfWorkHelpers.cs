@@ -97,7 +97,7 @@ namespace TestAPI.Helpers
 			using (var dBContext = new TicketDBContext(options))
 			{
 				dBContext.Tickets.Add(
-					new Discussion { TicketId = 1, 
+					new Ticket { TicketId = 1, 
 						Summary = "Summary number one", 
 						Description = "description", 
 						RaisedDate = new DateTime(2023, 10, 23), 
@@ -110,7 +110,7 @@ namespace TestAPI.Helpers
 						AssignedToId = 1 });
 
 				dBContext.Tickets.Add(
-				new Discussion
+				new Ticket
 				{
 					TicketId = 2,
 					Summary = "Summary number two",
@@ -127,7 +127,7 @@ namespace TestAPI.Helpers
 
 
 				dBContext.Tickets.Add(
-				new Discussion
+				new Ticket
 				{
 					TicketId = 3,
 					Summary = "Summary number three",
@@ -145,7 +145,7 @@ namespace TestAPI.Helpers
 
 
 				dBContext.Tickets.Add(
-				new Discussion
+				new Ticket
 				{
 					TicketId = 4,
 					Summary = "Summary number Four",

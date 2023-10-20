@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Repository
 {
-	public class TicketRepository : GenericRepository<Discussion>, ITicketRepository
+	public class TicketRepository : GenericRepository<Ticket>, ITicketRepository
 	{
 		public TicketRepository(TicketDBContext ticketContext) : base(ticketContext)
 		{
@@ -17,7 +17,7 @@ namespace DataAccess.Repository
 
 		public async Task<List<CategoryChartFromDB>> GetCategoryChart(string type)
 		{
-			IQueryable<IGrouping<string, Discussion>> data;
+			IQueryable<IGrouping<string, Ticket>> data;
 
 			switch (type)
 			{
@@ -118,9 +118,9 @@ namespace DataAccess.Repository
 			return response;
 		}
 
-		public Task<Discussion> GetTicketById(int id)
+		public Task<Ticket> GetTicketById(int id)
 		{
-			return dbContext.Set<Discussion>()
+			return dbContext.Set<Ticket>()
 				.Include(x => x.Attachments)
 				.Include(x => x.Category)
 				.Include(x => x.Priority)
@@ -131,9 +131,9 @@ namespace DataAccess.Repository
 				.FirstOrDefaultAsync(x => x.TicketId == id);
 		}
 
-		public Task<List<Discussion>> ListTicket(ListTicketRequest? request)
+		public Task<List<Ticket>> ListTicket(ListTicketRequest? request)
 		{
-			var mainQuery = dbContext.Set<Discussion>()
+			var mainQuery = dbContext.Set<Ticket>()
 				.Include(x => x.Attachments)
 				.Include(x => x.Category)
 				.Include(x => x.Priority)

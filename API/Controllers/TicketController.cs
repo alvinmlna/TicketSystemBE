@@ -40,10 +40,10 @@ namespace API.Controllers
 		{
 			var result = await _ticketServices.AddTicket(ticket);
 			if (result == null)
-				return ApiResponseHelpers.ActionFailed(ticket);
+				return ApiResponseHelpers.BadRequest(ticket);
 
 
-			var mappedResult = _mapper.Map<Discussion, TicketDTO>(result);
+			var mappedResult = _mapper.Map<Ticket, TicketDTO>(result);
 			return Ok(mappedResult);
 		}
 
@@ -51,7 +51,7 @@ namespace API.Controllers
 		public async Task<ActionResult> UpdateTicket(EditTicketRequest ticket)
 		{
 			var result = await _ticketServices.Edit(ticket);
-			if (result == false) return ApiResponseHelpers.ActionFailed(ticket);
+			if (result == false) return ApiResponseHelpers.BadRequest(ticket);
 
 			return Ok(ticket);
 		}
@@ -63,7 +63,7 @@ namespace API.Controllers
 			var ticket = await _ticketServices.GetTicketById(id);
 			if (ticket == null) return NotFound(id);
 
-			var ticketDTO = _mapper.Map<Discussion, TicketDTO>(ticket);
+			var ticketDTO = _mapper.Map<Ticket, TicketDTO>(ticket);
 			return Ok(ticketDTO);
 		}
 

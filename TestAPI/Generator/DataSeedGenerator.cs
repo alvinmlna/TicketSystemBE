@@ -24,7 +24,7 @@ namespace TestAPI.Generator
 			for (int i = 0; i < 100; i++)
 			{
 				var raisedDate = date.Next();
-				Discussion newTicket = new Discussion()
+                Ticket newTicket = new Ticket()
 				{
 					UserId = 1,
 					ProductId = rand.Next(1, 4),

@@ -6,13 +6,13 @@ namespace Core.Interfaces.Services
 {
 	public interface ITicketServices
 	{
-		Task<Discussion?> AddTicket(AddTicketRequest request);
+		Task<Ticket?> AddTicket(AddTicketRequest request);
 
 		Task<bool> Edit(EditTicketRequest ticket);
 
 		Task<bool> UploadFile(List<Attachment> attachments, int ticketId);
 
-		Task<Discussion> GetTicketById(int id);
+		Task<Ticket> GetTicketById(int id);
 
 		Task<List<ListTicketResponse>> ListTicketResponse(ListTicketRequest listTicketRequest);
         Task<List<ListTicketResponse>> ListOfMyTickets();
