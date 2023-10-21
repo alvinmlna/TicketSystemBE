@@ -29,7 +29,11 @@ namespace API.Helpers
 			CreateMap<StatusDTO, Status>().ReverseMap();
 			CreateMap<AttachmentDTO, Attachment>().ReverseMap();
 			CreateMap<UserDTO, User>().ReverseMap();
-			CreateMap<DiscussionDTO, Discussion>().ReverseMap();
+
+			CreateMap<DiscussionDTO, Discussion>();
+			CreateMap<Discussion, DiscussionDTO>()
+				.ForMember(x => x.Name, o => o.MapFrom(x => x.User.Name));
+
 		}
 
 	}

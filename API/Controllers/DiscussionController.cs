@@ -23,10 +23,13 @@ namespace API.Controllers
         }
 
         [HttpGet("ticket/{ticketId}")]
-        public async Task<ActionResult<IReadOnlyList<Discussion>>> GetDiscussionByTicket(int ticketId)
+        public async Task<ActionResult<IReadOnlyList<DiscussionDTO>>> GetDiscussionByTicket(int ticketId)
         {
             var result = await _discussionService.GetDiscussionByTicketId(ticketId);
-            return Ok(result);
+
+            var mappedResult = _mapper.Map<IReadOnlyList<DiscussionDTO>>(result);
+
+            return Ok(mappedResult);
         }
 
         [HttpGet("{discussionId}")]
