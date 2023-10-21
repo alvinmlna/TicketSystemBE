@@ -42,7 +42,8 @@ namespace BusinessLogic.Services
             {
                 IsSuccess = true,
                 Email = user.Email,
-                Name = user.Name
+                Name = user.Name,
+                UserId = user.UserId
             };
         }
 
