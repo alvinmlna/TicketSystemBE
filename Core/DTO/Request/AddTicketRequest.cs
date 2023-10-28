@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.DTO.Request
 {
@@ -24,5 +25,8 @@ namespace Core.DTO.Request
 
 		[Required]
 		public string Description { get; set; }
+
+        [DataType(DataType.Upload)]
+        public List<IFormFile>? Attachments { get; set; }
     }
 }

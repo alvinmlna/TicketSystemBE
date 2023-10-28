@@ -8,8 +8,7 @@ namespace Core.DTO.Request
 		[Required]
 		public int TicketId { get; set; }
 
-		[Required]
-		public int AssignedToId { get; set; }
+		public int? AssignedToId { get; set; }
 
 		[Required]
 

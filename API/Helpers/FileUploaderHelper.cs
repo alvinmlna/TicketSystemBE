@@ -51,7 +51,42 @@ namespace API.Helpers
 			};
 		}
 
-		public string GenerateRandomFileName(string fullFileName)
+        public async Task<FileUploadResult> UploadFile(List<IFormFile> files)
+        {
+            List<FileResult> fileResults = new List<FileResult>();
+
+            foreach (var file in files)
+            {
+                if (file.FileName == null || file.FileName.Length == 0)
+                    continue;
+
+                FileResult result = new FileResult();
+                result.Filename = file.FileName;
+
+                string newFileName = GenerateRandomFileName(file.FileName);
+                bool UploadStatus = await UploadFile(file, newFileName);
+
+                if (UploadStatus)
+                {
+                    result.NewFileName = newFileName;
+                    result.Status = true;
+                }
+                else
+                {
+                    result.Status = false;
+                }
+
+                fileResults.Add(result);
+
+            }
+
+            return new FileUploadResult()
+            {
+                FileResults = fileResults
+            };
+        }
+
+        public string GenerateRandomFileName(string fullFileName)
 		{
 			var fileName = Path.GetFileNameWithoutExtension(fullFileName);
 			var ext = Path.GetExtension(fullFileName);
