@@ -81,21 +81,17 @@ namespace API.Controllers
 			return await _ticketServices.ListTicketResponse(request);
 		}
 
-
 		[HttpGet("statussummary")]
 		public async Task<ActionResult<List<StatusSummaryResponse>>> GetStatusSummary()
 		{
 			return await _chartService.GetStatusSummaryResponses();
 		}
 
-
-
 		[HttpGet("myticket")]
 		public async Task<ActionResult<List<ListTicketResponse>>> GetMyTickets()
 		{
 			return await _ticketServices.ListOfMyTickets();
 		}
-
 
         private async Task<List<Attachment>> UploadFile(List<IFormFile> iformfiles)
         {
@@ -110,7 +106,9 @@ namespace API.Controllers
             {
                 attachments.Add(new Attachment
                 {
-                    Filename = item.ServerFileName,
+                    Filename = item.Filename,
+					ServerFileName = item.ServerFileName,
+					FileSize = item.FileSize,
                 });
             }
 
