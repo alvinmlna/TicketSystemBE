@@ -20,6 +20,7 @@ namespace DataAccess.Data
 		public DbSet<Status> Statuses { get; set; }
 		public DbSet<Attachment> Attachments { get; set; }
 		public DbSet<Discussion> Discussions { get; set; }
+		public DbSet<DiscussionAttachment> DiscussionAttachments { get; set; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
