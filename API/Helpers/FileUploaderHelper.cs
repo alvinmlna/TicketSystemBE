@@ -33,7 +33,7 @@ namespace API.Helpers
 
 				if (UploadStatus)
 				{
-					result.NewFileName = newFileName;
+					result.ServerFileName = newFileName;
 					result.Status = true;
 				}
 				else
@@ -62,13 +62,14 @@ namespace API.Helpers
 
                 FileResult result = new FileResult();
                 result.Filename = file.FileName;
+                result.FileSize = Convert.ToInt32(file.Length);
 
                 string newFileName = GenerateRandomFileName(file.FileName);
                 bool UploadStatus = await UploadFile(file, newFileName);
 
                 if (UploadStatus)
                 {
-                    result.NewFileName = newFileName;
+                    result.ServerFileName = newFileName;
                     result.Status = true;
                 }
                 else
@@ -136,7 +137,8 @@ namespace API.Helpers
 	public class FileResult
 	{
 		public string Filename { get; set; }
-		public string NewFileName { get; set; }
-		public bool Status { get; set; }
+		public string ServerFileName { get; set; }
+        public int FileSize { get; set; }
+        public bool Status { get; set; }
 	}
 }

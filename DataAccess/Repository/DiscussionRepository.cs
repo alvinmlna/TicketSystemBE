@@ -15,6 +15,7 @@ namespace DataAccess.Repository
         {
             return await dbContext.Set<Discussion>().Where(x => x.TicketId == ticketId)
                 .Include(x => x.User)
+                .Include(x => x.Attachments)
                 .OrderBy(x => x.DateSending)
                 .ToListAsync();
         }

@@ -67,7 +67,7 @@ namespace API.Controllers
 			{
 				attachments.Add(new Attachment
 				{
-					Filename = item.NewFileName,
+					Filename = item.ServerFileName,
 				});
 			}
 

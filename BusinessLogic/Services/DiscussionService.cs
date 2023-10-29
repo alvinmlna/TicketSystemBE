@@ -1,6 +1,7 @@
 ﻿using Core.Entities;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
+using System.Net.Sockets;
 
 namespace BusinessLogic.Services
 {
@@ -15,12 +16,16 @@ namespace BusinessLogic.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Add(Discussion discussion)
+        public async Task<Discussion?> Add(Discussion discussion)
         {
             discussion.DateSending = DateTime.Now;
 
             _unitOfWork.Repository<Discussion>().Add( discussion );
-            return await _unitOfWork.SaveChangesReturnBool();
+            int result = await _unitOfWork.SaveChanges();
+            if (result > 0)
+                return discussion;
+
+            return null;
         }
 
         public async Task<bool> Delete(int discussionId)
@@ -50,6 +55,21 @@ namespace BusinessLogic.Services
         public async Task<IReadOnlyList<Discussion>> GetDiscussionByTicketId(int ticketId)
         {
             return await _unitOfWork.DiscussionRepository.GetDiscussionByTicketId(ticketId);
+        }
+
+        public async Task<bool> UploadFile(List<DiscussionAttachment> attachments, int discussionId)
+        {
+            var discussion = await _unitOfWork.Repository<Discussion>().GetByIdAsync(discussionId);
+            if (discussion == null) { return false; }
+
+            foreach (var attachment in attachments)
+            {
+                attachment.DateAdded = DateTime.Now;
+                discussion.Attachments.Add(attachment);
+            }
+
+            _unitOfWork.Repository<Discussion>().Update(discussion);
+            return await _unitOfWork.SaveChangesReturnBool();
         }
     }
 }

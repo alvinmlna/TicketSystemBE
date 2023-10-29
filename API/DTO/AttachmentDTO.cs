@@ -6,5 +6,6 @@
 		public string Filename { get; set; }
 		public DateTime DateAdded { get; set; }
 		public int TicketId { get; set; }
+
 	}
 }

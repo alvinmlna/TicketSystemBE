@@ -335,7 +335,7 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("Core.Entities.DiscussionAttachment", b =>
                 {
                     b.HasOne("Core.Entities.Discussion", "Discussion")
-                        .WithMany()
+                        .WithMany("Attachments")
                         .HasForeignKey("DiscussionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -390,6 +390,11 @@ namespace DataAccess.Migrations
                     b.Navigation("Status");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Core.Entities.Discussion", b =>
+                {
+                    b.Navigation("Attachments");
                 });
 
             modelBuilder.Entity("Core.Entities.Ticket", b =>

@@ -28,13 +28,18 @@ namespace API.Helpers
 			CreateMap<ProductDTO, Product>().ReverseMap();
 			CreateMap<StatusDTO, Status>().ReverseMap();
 			CreateMap<AttachmentDTO, Attachment>().ReverseMap();
-			CreateMap<UserDTO, User>().ReverseMap();
+            CreateMap<DiscussionAttachmentDTO, DiscussionAttachment>().ReverseMap();
+            CreateMap<UserDTO, User>().ReverseMap();
 
-			CreateMap<DiscussionDTO, Discussion>();
-			CreateMap<Discussion, DiscussionDTO>()
-				.ForMember(x => x.Name, o => o.MapFrom(x => x.User.Name));
+			CreateMap<DiscussionDTO, Discussion>()
+                .ForMember(x => x.Attachments, o => o.Ignore());
 
-		}
+            CreateMap<Discussion, DiscussionDTO>()
+				.ForMember(x => x.Name, o => o.MapFrom(x => x.User.Name))
+                .ForMember(x => x.Attachments, o => o.Ignore())
+                .ForMember(x => x.AttachmentViews, o => o.MapFrom(x => x.Attachments));
+
+        }
 
 	}
 }
