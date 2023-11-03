@@ -43,7 +43,8 @@ namespace BusinessLogic.Services
                 IsSuccess = true,
                 Email = user.Email,
                 Name = user.Name,
-                UserId = user.UserId
+                UserId = user.UserId,
+                ImagePath = user.ImagePath
             };
         }
 

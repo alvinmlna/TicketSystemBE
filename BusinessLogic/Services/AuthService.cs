@@ -48,7 +48,8 @@ namespace BusinessLogic.Services
 				Email = user.Email,
 				Name = user.Name,
 				Token = token,
-				UserId = user.UserId
+				UserId = user.UserId,
+				ImagePath = user.ImagePath,
 			};
 		}
 

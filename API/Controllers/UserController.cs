@@ -1,10 +1,12 @@
 ﻿using API.DTO;
+using API.Helpers;
 using AutoMapper;
 using BusinessLogic.Services;
 using Core.Entities;
 using Core.Interfaces.Services;
 using eCommerce.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -41,5 +43,15 @@ namespace API.Controllers
 			var dtoResult = _mapper.Map<IReadOnlyList<User>, IReadOnlyList<UserDTO>>(result);
 			return Ok(dtoResult);
 		}
-	}
+
+        [HttpGet("image/{fileName}")]
+        public async Task<IActionResult> GetUserImage(string fileName)
+        {
+            fileName = Path.Combine(AppContext.BaseDirectory + "profile", fileName);
+            if (!System.IO.File.Exists(fileName)) return ApiResponseHelpers.NotFound(fileName);
+
+            Byte[] b = System.IO.File.ReadAllBytes(fileName);   // You can use your own method over here.         
+            return File(b, "image/jpeg");
+        }
+    }
 }
