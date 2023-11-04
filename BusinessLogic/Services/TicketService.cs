@@ -29,9 +29,12 @@ namespace BusinessLogic.Services
 
         public async Task<Ticket?> AddTicket(AddTicketRequest request)
 		{
+            var userClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userClaim == null) return null;
+
             Ticket ticket = new Ticket();
 
-			ticket.UserId = request.UserId;
+            ticket.UserId = int.Parse(userClaim.Value);
 			ticket.ProductId = request.ProductId;
 			ticket.CategoryId = request.CategoryId;
 			ticket.PriorityId = request.PriorityId;
@@ -84,7 +87,18 @@ namespace BusinessLogic.Services
 
         public async Task<List<ListTicketResponse>> ListTicketResponse(ListTicketRequest listTicketRequest)
 		{
-			var dbResult =  await _unitOfWork.TicketRepository.ListTicket(listTicketRequest);
+			//Force show customer raised ticket only 
+            var userRole = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Role);
+			if(userRole != null && userRole.Value == ((int)RoleEnum.Customer).ToString())
+			{
+                var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
+				if(userId != null)
+				{
+					listTicketRequest.RaisedBy = new int[] { int.Parse(userId.Value) };
+                }
+			}
+
+            var dbResult =  await _unitOfWork.TicketRepository.ListTicket(listTicketRequest);
 			var result = dbResult.Select(x => new ListTicketResponse
 			{
 				TicketId = x.TicketId,
