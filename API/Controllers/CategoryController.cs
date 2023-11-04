@@ -23,6 +23,7 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<ActionResult<CategoryDTO>> GetAll()
 		{
+			var u = User;
 			var result = await _categoryService.GetAllAsync();
 			if (result.Count == 0)
 				return Ok(new List<CategoryDTO>());

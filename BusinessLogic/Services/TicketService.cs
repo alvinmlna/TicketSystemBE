@@ -87,17 +87,6 @@ namespace BusinessLogic.Services
 
         public async Task<List<ListTicketResponse>> ListTicketResponse(ListTicketRequest listTicketRequest)
 		{
-			//Force show customer raised ticket only 
-            var userRole = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Role);
-			if(userRole != null && userRole.Value == ((int)RoleEnum.Customer).ToString())
-			{
-                var userId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
-				if(userId != null)
-				{
-					listTicketRequest.RaisedBy = new int[] { int.Parse(userId.Value) };
-                }
-			}
-
             var dbResult =  await _unitOfWork.TicketRepository.ListTicket(listTicketRequest);
 			var result = dbResult.Select(x => new ListTicketResponse
 			{

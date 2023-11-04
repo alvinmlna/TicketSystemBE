@@ -1,4 +1,5 @@
-﻿using API.DTO;
+﻿using API.Common.Helpers;
+using API.DTO;
 using API.Helpers;
 using API.Helpers.ValidationsHelper;
 using AutoMapper;
@@ -78,7 +79,14 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<ActionResult<List<ListTicketResponse>>> GetTickets([FromQuery] ListTicketRequest request)
 		{
-			return await _ticketServices.ListTicketResponse(request);
+			var currentUser = CurrentUser.GetCurrentUser(User);
+			if (currentUser == null) return BadRequest();
+
+			if (currentUser.IsCustomer)
+                request.RaisedBy = new int[] { currentUser.UserId };
+
+
+            return await _ticketServices.ListTicketResponse(request);
 		}
 
 		[HttpGet("statussummary")]
