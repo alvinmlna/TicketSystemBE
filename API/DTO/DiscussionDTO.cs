@@ -9,6 +9,7 @@ namespace API.DTO
         public string Message { get; set; }
         public int UserId { get; set; }
         public string? Name { get; set; }
+        public string ImagePath { get; set; }
         public int TicketId { get; set; }
 
 

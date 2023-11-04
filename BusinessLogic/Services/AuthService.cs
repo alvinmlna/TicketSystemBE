@@ -50,6 +50,7 @@ namespace BusinessLogic.Services
 				Token = token,
 				UserId = user.UserId,
 				ImagePath = user.ImagePath,
+				RoleId = user.RoleId
 			};
 		}
 
@@ -64,6 +65,7 @@ namespace BusinessLogic.Services
 			user.PasswordSalt = passwordSalt;
 			user.RoleId = request.Role;
 			user.Name = request.Name;
+			user.ImagePath = request.ImagePath;
 
 			_unitOfWork.Repository<User>().Add(user);
 			await _unitOfWork.SaveChanges();

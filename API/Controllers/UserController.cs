@@ -53,5 +53,19 @@ namespace API.Controllers
             Byte[] b = System.IO.File.ReadAllBytes(fileName);   // You can use your own method over here.         
             return File(b, "image/jpeg");
         }
+
+
+        [HttpGet("imagebyid/{id}")]
+        public async Task<IActionResult> GetUserImageById(int id)
+        {
+			var user = await _userService.GetUserById(id);
+			if (user == null) return BadRequest(id);
+
+            var fileName = Path.Combine(AppContext.BaseDirectory + "profile", user.ImagePath);
+            if (!System.IO.File.Exists(fileName)) return ApiResponseHelpers.NotFound(fileName);
+
+            Byte[] b = System.IO.File.ReadAllBytes(fileName);   // You can use your own method over here.         
+            return File(b, "image/jpeg");
+        }
     }
 }

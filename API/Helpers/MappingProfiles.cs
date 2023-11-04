@@ -36,6 +36,7 @@ namespace API.Helpers
 
             CreateMap<Discussion, DiscussionDTO>()
 				.ForMember(x => x.Name, o => o.MapFrom(x => x.User.Name))
+				.ForMember(x => x.ImagePath, o => o.MapFrom(x => x.User.ImagePath))
                 .ForMember(x => x.Attachments, o => o.Ignore())
                 .ForMember(x => x.AttachmentViews, o => o.MapFrom(x => x.Attachments));
 
