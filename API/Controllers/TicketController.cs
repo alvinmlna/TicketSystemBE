@@ -3,6 +3,7 @@ using API.DTO;
 using API.Helpers;
 using API.Helpers.ValidationsHelper;
 using AutoMapper;
+using Azure.Core;
 using Core.DTO.Request;
 using Core.DTO.Response;
 using Core.Entities;
@@ -42,7 +43,14 @@ namespace API.Controllers
 		[HttpPost]
 		public async Task<ActionResult> AddTicket([FromForm] AddTicketRequest ticket)
 		{
-			var result = await _ticketServices.AddTicket(ticket);
+			var currentUser = CurrentUser.Get(User);
+			if (currentUser == null) return ApiResponseHelpers.BadRequest(ticket);
+
+
+			//Force set user id based on authentication
+			ticket.UserId = currentUser.UserId;
+
+            var result = await _ticketServices.AddTicket(ticket);
 			if (result == null)
 				return ApiResponseHelpers.BadRequest(ticket);
 
@@ -79,12 +87,11 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<ActionResult<List<ListTicketResponse>>> GetTickets([FromQuery] ListTicketRequest request)
 		{
-			var currentUser = CurrentUser.GetCurrentUser(User);
+			var currentUser = CurrentUser.Get(User);
 			if (currentUser == null) return BadRequest();
 
 			if (currentUser.IsCustomer)
                 request.RaisedBy = new int[] { currentUser.UserId };
-
 
             return await _ticketServices.ListTicketResponse(request);
 		}
@@ -98,7 +105,13 @@ namespace API.Controllers
 		[HttpGet("myticket")]
 		public async Task<ActionResult<List<ListTicketResponse>>> GetMyTickets()
 		{
-			return await _ticketServices.ListOfMyTickets();
+			var currentUser = CurrentUser.Get(User);
+			if (currentUser == null) return ApiResponseHelpers.BadRequest("User not exist");
+
+            return await _ticketServices.ListTicketResponse(new ListTicketRequest
+            {
+                RaisedBy = new int[] { currentUser.UserId }
+            });
 		}
 
         private async Task<List<Attachment>> UploadFile(List<IFormFile> iformfiles)

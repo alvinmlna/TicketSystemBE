@@ -5,9 +5,6 @@ using Core.Entities;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
-using Serilog;
-using System.Net.Sockets;
-using System.Security.Claims;
 
 namespace BusinessLogic.Services
 {
@@ -15,26 +12,20 @@ namespace BusinessLogic.Services
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly ILoggingService _log;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public TicketService(
 			IUnitOfWork unitOfWork, 
-			ILoggingService log,
-			IHttpContextAccessor httpContextAccessor)
+			ILoggingService log)
         {
 			_unitOfWork = unitOfWork;
 			_log = log;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<Ticket?> AddTicket(AddTicketRequest request)
 		{
-            var userClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (userClaim == null) return null;
-
             Ticket ticket = new Ticket();
 
-            ticket.UserId = int.Parse(userClaim.Value);
+			ticket.UserId = request.UserId;
 			ticket.ProductId = request.ProductId;
 			ticket.CategoryId = request.CategoryId;
 			ticket.PriorityId = request.PriorityId;
@@ -73,17 +64,6 @@ namespace BusinessLogic.Services
 		{
 			return await _unitOfWork.TicketRepository.GetTicketById(id);
 		}
-
-        public async Task<List<ListTicketResponse>> ListOfMyTickets()
-        {
-			var userClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
-			if(userClaim == null) return new List<ListTicketResponse>();
-
-			return await ListTicketResponse(new ListTicketRequest
-			{
-				RaisedBy = new int[] { int.Parse(userClaim.Value) }
-			});
-        }
 
         public async Task<List<ListTicketResponse>> ListTicketResponse(ListTicketRequest listTicketRequest)
 		{

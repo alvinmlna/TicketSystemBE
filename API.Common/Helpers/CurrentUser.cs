@@ -5,7 +5,7 @@ namespace API.Common.Helpers
 {
     public static class CurrentUser
     {
-        public static JWTCurrentUser GetCurrentUser(ClaimsPrincipal? claimsPrincipal)
+        public static JWTCurrentUser Get(ClaimsPrincipal? claimsPrincipal)
         {
             if (claimsPrincipal == null) return null;
             return new JWTCurrentUser
