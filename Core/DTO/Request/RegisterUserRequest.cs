@@ -4,7 +4,9 @@ namespace Core.DTO.Request
 {
 	public class RegisterUserRequest
 	{
-		[Required]
+		public int? UserId { get; set; }
+
+        [Required]
 		public string Email { get; set; }
 
 		public string Name { get; set; }

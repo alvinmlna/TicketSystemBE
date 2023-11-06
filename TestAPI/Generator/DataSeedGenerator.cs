@@ -12,7 +12,7 @@ namespace TestAPI.Generator
 	public class DataSeedGenerator
 	{
 		static UnitOfWork _unitOfWork = UnitOfWorkHelpers.GetActualSqlServer();
-		private readonly ITicketServices _ticketServices = new TicketService(_unitOfWork, null, null);
+		private readonly ITicketServices _ticketServices = new TicketService(_unitOfWork, null);
 
 		[TestMethod]
 		public void Generate()

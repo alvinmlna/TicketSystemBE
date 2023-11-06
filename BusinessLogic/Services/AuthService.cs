@@ -54,27 +54,7 @@ namespace BusinessLogic.Services
 			};
 		}
 
-		public async Task<DefaultResponse> Register(RegisterUserRequest request)
-		{
-			PasswordHasher.CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-
-			User user = new User();
-
-			user.Email = request.Email;
-			user.PasswordHash = passwordHash;
-			user.PasswordSalt = passwordSalt;
-			user.RoleId = request.Role;
-			user.Name = request.Name;
-			user.ImagePath = request.ImagePath;
-
-			_unitOfWork.Repository<User>().Add(user);
-			await _unitOfWork.SaveChanges();
-
-			return new DefaultResponse
-			{
-				IsSuccess = true
-			};
-		}
+		
 
 	}
 }

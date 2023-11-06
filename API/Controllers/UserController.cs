@@ -2,11 +2,11 @@
 using API.Helpers;
 using AutoMapper;
 using BusinessLogic.Services;
+using Core.DTO.Request;
 using Core.Entities;
 using Core.Interfaces.Services;
 using eCommerce.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -66,6 +66,38 @@ namespace API.Controllers
 
             Byte[] b = System.IO.File.ReadAllBytes(fileName);   // You can use your own method over here.         
             return File(b, "image/jpeg");
+        }
+
+
+        //Add User
+        [HttpPost]
+        public async Task<ActionResult<User>> AddUser(RegisterUserRequest request)
+        {
+            var result = await _userService.Register(request);
+            return Ok(result);
+        }
+
+        //Edit User
+        [HttpPut]
+        public async Task<ActionResult<User>> UpdateUser(RegisterUserRequest request)
+        {
+            var result = await _userService.UpdateUser(request);
+            return Ok(result);
+        }
+
+        //Delete User
+        [HttpDelete("{userId}")]
+        public async Task<ActionResult<User>> DeleteUser(int userId)
+        {
+            var result = await _userService.RemoveUser(userId);
+            return Ok(result);
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<ActionResult<User>> ChangePassword(ChangePasswordRequest changePassword)
+        {
+            var result = await _userService.ChangePassword(changePassword);
+            return Ok(result);
         }
     }
 }

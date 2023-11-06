@@ -14,20 +14,12 @@ namespace API.Controllers
 	{
 		public static User user = new User();
 		private readonly IAuthService _authService;
-        private readonly IUserService _userService;
 
-        public AuthController(IAuthService authService, IUserService userService)
+        public AuthController(IAuthService authService)
         {
 			_authService = authService;
-            _userService = userService;
         }
 
-		[HttpPost("register")]
-		public async Task<ActionResult<User>> Register(RegisterUserRequest request)
-		{
-			var result = await _authService.Register(request);
-			return Ok(result);
-		}
 
 		[HttpPost("login")]
 		public async Task<ActionResult<LoginResponse>> Login(AuthRequest request)
