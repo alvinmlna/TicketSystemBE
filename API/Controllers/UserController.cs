@@ -79,7 +79,7 @@ namespace API.Controllers
 
         //Edit User
         [HttpPut]
-        public async Task<ActionResult<User>> UpdateUser(RegisterUserRequest request)
+        public async Task<ActionResult<User>> UpdateUser(UpdateUserRequest request)
         {
             var result = await _userService.UpdateUser(request);
             return Ok(result);

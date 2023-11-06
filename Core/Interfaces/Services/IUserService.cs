@@ -13,7 +13,7 @@ namespace Core.Interfaces.Services
 		Task<IReadOnlyList<User>> GetAllAdminAsync();
 
         Task<DefaultResponse> Register(RegisterUserRequest request);
-        Task<DefaultResponse> UpdateUser(RegisterUserRequest request);
+        Task<DefaultResponse> UpdateUser(UpdateUserRequest request);
         Task<DefaultResponse> RemoveUser(int userId);
         Task<DefaultResponse> ChangePassword(ChangePasswordRequest changePassword);
     }

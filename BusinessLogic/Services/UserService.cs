@@ -81,7 +81,7 @@ namespace BusinessLogic.Services
         public async Task<DefaultResponse> RemoveUser(int userId)
         {
             var user =  await _unitOfWork.Repository<User>().GetByIdAsync(userId);
-            if(user == null) return new DefaultResponse { IsSuccess = false };
+            if(user == null) return new DefaultResponse { IsSuccess = false, Message = "User not found" };
 
             _unitOfWork.Repository<User>().Delete(user);
             var result = await _unitOfWork.SaveChangesReturnBool();
@@ -92,7 +92,7 @@ namespace BusinessLogic.Services
             };
         }
 
-        public async Task<DefaultResponse> UpdateUser(RegisterUserRequest request)
+        public async Task<DefaultResponse> UpdateUser(UpdateUserRequest request)
         {
             if (request.UserId == null) 
                 return new DefaultResponse { IsSuccess = false };
