@@ -29,6 +29,7 @@ namespace API.Extensions
 					  .ReadFrom.Configuration(config)
 					  .Enrich.FromLogContext()
 					  .CreateLogger();
+
 			services.AddSingleton<Serilog.ILogger>(logger);
 
 			//Business Logic
@@ -48,13 +49,13 @@ namespace API.Extensions
 			services.AddScoped<IDiscussionService, DiscussionService>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             services.Configure<MyConfigurations>(config.GetSection("MyConfigurations"));
 
 			//Repository
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			services.AddScoped(typeof(IConfigurationRepository), typeof(ConfigurationRepository));
 			services.AddScoped<ITicketRepository, TicketRepository>();
+			services.AddScoped<IUserRepository, UserRepository>();
 
 			//Auto Mapper
 			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

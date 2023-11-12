@@ -12,6 +12,7 @@ namespace DataAccess.Repository
 		private ConfigurationRepository configurationRepository;
 		private TicketRepository ticketRepository;
 		private DiscussionRepository discussionRepository;
+		private UserRepository userRepository;
 
 		public UnitOfWork(TicketDBContext context)
 		{
@@ -49,6 +50,18 @@ namespace DataAccess.Repository
                     discussionRepository = new DiscussionRepository(context);
                 }
                 return discussionRepository;
+            }
+        }
+
+        public IUserRepository UserRepository
+        {
+            get
+            {
+                if (userRepository == null)
+                {
+                    userRepository = new UserRepository(context);
+                }
+                return userRepository;
             }
         }
 

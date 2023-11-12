@@ -15,7 +15,8 @@ namespace BusinessLogic.Services
 		private readonly IUnitOfWork _unitOfWork;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+        public UserService(
+            IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
         {
 			_unitOfWork = unitOfWork;
             _httpContextAccessor = httpContextAccessor;
@@ -24,13 +25,13 @@ namespace BusinessLogic.Services
 
         public async Task<IReadOnlyList<User>> GetAllAdminAsync()
 		{
-			var result = await _unitOfWork.Repository<User>().ListAllAsync();
-			return result.Where(x => x.RoleId == (int)RoleEnum.Admin).ToList();
+			var result = await _unitOfWork.UserRepository.ListAllUsers();
+            return result.Where(x => x.RoleId == (int)RoleEnum.Admin).ToList();
 		}
 
-		public async Task<IReadOnlyList<User>> GetAllAsync()
+		public async Task<IReadOnlyList<User>> GetAllAsync(string search = "")
 		{
-			return await _unitOfWork.Repository<User>().ListAllAsync();
+            return await _unitOfWork.UserRepository.ListAllUsers(search);
         }
 
         public async Task<LoginResponse> GetCurrentUser()
@@ -38,7 +39,7 @@ namespace BusinessLogic.Services
             var userClaim = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
             if (userClaim == null) return null;
 
-            var user = await _unitOfWork.Repository<User>().GetByIdAsync(int.Parse(userClaim.Value));
+            var user = await _unitOfWork.UserRepository.GetUserById(int.Parse(userClaim.Value));
             if (user == null) return null;
 
             return new LoginResponse
@@ -53,7 +54,7 @@ namespace BusinessLogic.Services
 
         public async Task<User> GetUserById(int id)
         {
-            return await _unitOfWork.Repository<User>().GetByIdAsync(id);
+            return await _unitOfWork.UserRepository.GetUserById(id);
         }
 
         public async Task<DefaultResponse> Register(RegisterUserRequest request)
@@ -65,9 +66,9 @@ namespace BusinessLogic.Services
             user.Email = request.Email;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-            user.RoleId = request.Role;
+            user.RoleId = request.RoleId;
             user.Name = request.Name;
-            user.ImagePath = request.ImagePath;
+            user.ImagePath = string.Empty;
 
             _unitOfWork.Repository<User>().Add(user);
             await _unitOfWork.SaveChanges();
@@ -80,10 +81,12 @@ namespace BusinessLogic.Services
 
         public async Task<DefaultResponse> RemoveUser(int userId)
         {
-            var user =  await _unitOfWork.Repository<User>().GetByIdAsync(userId);
-            if(user == null) return new DefaultResponse { IsSuccess = false, Message = "User not found" };
+            var user =  await _unitOfWork.UserRepository.GetUserById(userId);
+            if (user == null) return new DefaultResponse { IsSuccess = false, Message = "User not found" };
 
-            _unitOfWork.Repository<User>().Delete(user);
+            user.IsRemoved = true;
+
+            _unitOfWork.Repository<User>().Update(user);
             var result = await _unitOfWork.SaveChangesReturnBool();
 
             return new DefaultResponse()
@@ -97,15 +100,14 @@ namespace BusinessLogic.Services
             if (request.UserId == null) 
                 return new DefaultResponse { IsSuccess = false };
 
-            var user = await _unitOfWork.Repository<User>().GetByIdAsync((int)request.UserId);
+            var user = await _unitOfWork.UserRepository.GetUserById((int)request.UserId);
 
             if (user == null)
                 return new DefaultResponse { IsSuccess = false };
 
             user.Email = request.Email;
-            user.RoleId = request.Role;
+            user.RoleId = request.RoleId;
             user.Name = request.Name;
-            user.ImagePath = request.ImagePath;
 
             _unitOfWork.Repository<User>().Update(user);
             await _unitOfWork.SaveChanges();
@@ -118,7 +120,7 @@ namespace BusinessLogic.Services
 
         public async Task<DefaultResponse> ChangePassword(ChangePasswordRequest request)
         {
-            var user = await _unitOfWork.Repository<User>().GetByIdAsync(request.UserId);
+            var user = await _unitOfWork.UserRepository.GetUserById((int)request.UserId); ;
 
             if (!PasswordHasher.VerifyPassword(request.OldPassword, user.PasswordHash, user.PasswordSalt))
             {

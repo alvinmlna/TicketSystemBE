@@ -14,8 +14,6 @@ namespace Core.DTO.Request
         public string Name { get; set; }
 
         [Required]
-        public int Role { get; set; }
-
-        public string ImagePath { get; set; } = string.Empty;
+        public int RoleId { get; set; }
     }
 }

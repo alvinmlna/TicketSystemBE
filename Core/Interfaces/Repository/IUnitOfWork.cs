@@ -5,8 +5,9 @@
 		IConfigurationRepository ConfigurationRepository { get; }
 		ITicketRepository TicketRepository { get; }
 		IDiscussionRepository DiscussionRepository { get; }
+        IUserRepository UserRepository { get; }
 
-		IGenericRepository<TEntity> Repository<TEntity>() where TEntity : class;
+        IGenericRepository<TEntity> Repository<TEntity>() where TEntity : class;
 		Task<int> SaveChanges();
 		Task<bool> SaveChangesReturnBool();
 	}

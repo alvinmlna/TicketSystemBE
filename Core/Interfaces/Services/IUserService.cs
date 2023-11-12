@@ -9,7 +9,7 @@ namespace Core.Interfaces.Services
     {
         Task<LoginResponse> GetCurrentUser();
         Task<User> GetUserById(int id);
-        Task<IReadOnlyList<User>> GetAllAsync();
+        Task<IReadOnlyList<User>> GetAllAsync(string search = "");
 		Task<IReadOnlyList<User>> GetAllAdminAsync();
 
         Task<DefaultResponse> Register(RegisterUserRequest request);

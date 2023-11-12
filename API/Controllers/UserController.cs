@@ -23,9 +23,9 @@ namespace API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<UserDTO>> GetAll()
+		public async Task<ActionResult<UserDTO>> GetAll(string? search)
 		{
-			var result = await _userService.GetAllAsync();
+			var result = await _userService.GetAllAsync(search);
 			if (result.Count == 0)
 				return Ok(new List<UserDTO>());
 
@@ -43,6 +43,17 @@ namespace API.Controllers
 			var dtoResult = _mapper.Map<IReadOnlyList<User>, IReadOnlyList<UserDTO>>(result);
 			return Ok(dtoResult);
 		}
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDTO>> GetUserById(int id)
+        {
+            var result = await _userService.GetUserById(id);
+            if (result == null)
+                return ApiResponseHelpers.NotFound("User Not Found!");
+
+            var dtoResult = _mapper.Map<User, UserDTO>(result);
+            return Ok(dtoResult);
+        }
 
         [HttpGet("image/{fileName}")]
         public async Task<IActionResult> GetUserImage(string fileName)
@@ -71,7 +82,7 @@ namespace API.Controllers
 
         //Add User
         [HttpPost]
-        public async Task<ActionResult<User>> AddUser(RegisterUserRequest request)
+        public async Task<ActionResult<User>> AddUser([FromForm] RegisterUserRequest request)
         {
             var result = await _userService.Register(request);
             return Ok(result);
