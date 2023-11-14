@@ -4,10 +4,12 @@ using BusinessLogic.Services;
 using Core.DTO.InternalDTO;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
+using DataAccess.CahcedRepository;
 using DataAccess.Data;
 using DataAccess.Repository;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
 using System;
@@ -32,6 +34,9 @@ namespace API.Extensions
 
 			services.AddSingleton<Serilog.ILogger>(logger);
 
+			//Memory Cache
+			services.AddMemoryCache();
+
 			//Business Logic
 			services.AddScoped<ITicketServices, TicketService>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -55,10 +60,23 @@ namespace API.Extensions
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 			services.AddScoped(typeof(IConfigurationRepository), typeof(ConfigurationRepository));
 			services.AddScoped<ITicketRepository, TicketRepository>();
-			services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDiscussionRepository, DiscussionRepository>();
 
-			//Auto Mapper
-			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.Decorate<IUserRepository, CahcedUserRepository>();
+
+            // Requests for ReadOnlyRepository will use the Cached Implementation
+            //services.AddScoped<IUserRepository, UserRepository>();
+
+            //services.AddScoped<IUserRepository>(p =>
+            //{
+            //	var repo = p.GetService<UserRepository>()!;
+            //	return new CahcedUserRepository(p.GetService<TicketDBContext>()!,  repo, p.GetService<IMemoryCache>()!);
+            //});
+
+            //Auto Mapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 			services.AddCors(options =>
 			{

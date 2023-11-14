@@ -13,7 +13,9 @@ namespace DataAccess.Repository
 
         public async Task<User> GetUserById(int id)
         {
-            var user = await dbContext.Set<User>().FirstOrDefaultAsync(x => x.UserId == id && x.IsRemoved == false);
+            var user = await dbContext.Set<User>()
+                .FirstOrDefaultAsync(x => x.UserId == id && x.IsRemoved == false);
+
             return user;
         }
 
@@ -29,7 +31,11 @@ namespace DataAccess.Repository
             }
 
             var query = await  dbContext.Set<User>()
-                .Where(x => x.IsRemoved == false && x.Email.ToLower().Contains(search)).ToListAsync();
+                .Where(x => x.IsRemoved == false &&
+                    (
+                        x.Email.ToLower().Contains(search) || x.Name.ToLower().Contains(search)
+                    )
+                ).ToListAsync();
 
             return query;
         }
