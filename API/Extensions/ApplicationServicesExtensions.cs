@@ -58,22 +58,20 @@ namespace API.Extensions
 
 			//Repository
 			services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-			services.AddScoped(typeof(IConfigurationRepository), typeof(ConfigurationRepository));
-			services.AddScoped<ITicketRepository, TicketRepository>();
-            services.AddScoped<IDiscussionRepository, DiscussionRepository>();
 
+
+			services.AddScoped(typeof(IConfigurationRepository), typeof(ConfigurationRepository));
+			services.Decorate<IConfigurationRepository, CachedConfigurationRepository>();
+
+			services.AddScoped<ITicketRepository, TicketRepository>();
+			services.Decorate<ITicketRepository, CachedTicketRepository>();
+
+            services.AddScoped<IDiscussionRepository, DiscussionRepository>();
+            services.Decorate<IDiscussionRepository, CachedDiscussionRepository>();
 
             services.AddScoped<IUserRepository, UserRepository>();
-            services.Decorate<IUserRepository, CahcedUserRepository>();
+            services.Decorate<IUserRepository, CachedUserRepository>();
 
-            // Requests for ReadOnlyRepository will use the Cached Implementation
-            //services.AddScoped<IUserRepository, UserRepository>();
-
-            //services.AddScoped<IUserRepository>(p =>
-            //{
-            //	var repo = p.GetService<UserRepository>()!;
-            //	return new CahcedUserRepository(p.GetService<TicketDBContext>()!,  repo, p.GetService<IMemoryCache>()!);
-            //});
 
             //Auto Mapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
