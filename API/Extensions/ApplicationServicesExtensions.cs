@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Serilog;
+using StackExchange.Redis;
 using System;
 using System.Security.AccessControl;
 
@@ -26,8 +27,14 @@ namespace API.Extensions
 				o.UseSqlServer(config.GetConnectionString("DefaultConnection"));
 			});
 
-			//Add serilog
-			var logger = new LoggerConfiguration()
+            services.AddSingleton<IConnectionMultiplexer>(c =>
+            {
+                var opt = ConfigurationOptions.Parse(config.GetConnectionString("Redis"));
+                return ConnectionMultiplexer.Connect(opt);
+            });
+
+            //Add serilog
+            var logger = new LoggerConfiguration()
 					  .ReadFrom.Configuration(config)
 					  .Enrich.FromLogContext()
 					  .CreateLogger();
@@ -36,9 +43,10 @@ namespace API.Extensions
 
 			//Memory Cache
 			services.AddMemoryCache();
+			services.AddDistributedMemoryCache();
 
-			//Business Logic
-			services.AddScoped<ITicketServices, TicketService>();
+            //Business Logic
+            services.AddScoped<ITicketServices, TicketService>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<IConfigurationService, ConfigurationService>();
 			services.AddScoped<ILoggingService, LoggingService>();

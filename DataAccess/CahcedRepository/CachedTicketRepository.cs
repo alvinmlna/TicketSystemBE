@@ -5,7 +5,9 @@ using Core.Entities;
 using Core.Interfaces.Repository;
 using DataAccess.Data;
 using DataAccess.Repository;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace DataAccess.CahcedRepository
 {
@@ -13,16 +15,18 @@ namespace DataAccess.CahcedRepository
     {
         private readonly ITicketRepository _ticketRepository;
         private readonly IMemoryCache _memoryCache;
+        private readonly IDistributedCache _distributedCache;
         TimeSpan expiredCacheTime = TimeSpan.FromMinutes(1);
 
         public CachedTicketRepository(TicketDBContext ticketContext,
             ITicketRepository ticketRepository,
-            IMemoryCache memoryCache
-            
-            ) : base(ticketContext)
+            IMemoryCache memoryCache,
+            IDistributedCache distributedCache
+        ) : base(ticketContext)
         {
             _ticketRepository = ticketRepository;
             _memoryCache = memoryCache;
+            _distributedCache = distributedCache;
         }
 
         public Task<List<CategoryChartFromDB>> GetCategoryChart(string type)
@@ -51,9 +55,35 @@ namespace DataAccess.CahcedRepository
                 })!;
         }
 
-        public Task<List<StatusSummaryResponse>> GetStatusSummary()
+        public async Task<List<StatusSummaryResponse>> GetStatusSummary()
         {
-            return _ticketRepository.GetStatusSummary();
+            string key = "status-summary";
+
+            string? cahcedData = await _distributedCache.GetStringAsync(
+                key);
+
+
+            List<StatusSummaryResponse> result;
+            if (string.IsNullOrEmpty(cahcedData))
+            {
+                result = await _ticketRepository.GetStatusSummary();
+                if(result is null)
+                    return result;
+
+                await _distributedCache.SetStringAsync(
+                    key,
+                    JsonConvert.SerializeObject(result),
+                    new DistributedCacheEntryOptions()
+                    {
+                        AbsoluteExpirationRelativeToNow = expiredCacheTime
+                    });
+
+                return result;
+            }
+
+            result = JsonConvert.DeserializeObject<List<StatusSummaryResponse>>(cahcedData);
+
+            return result;
         }
 
         public Task<Ticket> GetTicketById(int id)
