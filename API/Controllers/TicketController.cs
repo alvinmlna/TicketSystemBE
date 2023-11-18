@@ -11,6 +11,7 @@ using Core.Interfaces.Services;
 using eCommerce.API.Controllers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace API.Controllers
 {
@@ -75,6 +76,7 @@ namespace API.Controllers
 
 
 		[HttpGet("{id}")]
+		[EnableRateLimiting("fixed")]
 		public async Task<ActionResult<TicketDTO>> GetTicket(int id)
 		{
 			var ticket = await _ticketServices.GetTicketById(id);
