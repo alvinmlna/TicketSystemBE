@@ -88,15 +88,7 @@ namespace DataAccess.CahcedRepository
 
         public Task<Ticket> GetTicketById(int id)
         {
-            string key = $"ticket-{id}";
-
-            return _memoryCache.GetOrCreateAsync(
-                key,
-                entry =>
-                {
-                    entry.SetAbsoluteExpiration(expiredCacheTime);
-                    return _ticketRepository.GetTicketById(id);
-                })!;
+            return _ticketRepository.GetTicketById(id);
         }
 
         public Task<List<Ticket>> ListTicket(ListTicketRequest request)

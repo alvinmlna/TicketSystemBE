@@ -18,7 +18,7 @@ namespace TestAPI.Helpers
 
 			TicketDBContext dBContext = new TicketDBContext(options);
 
-			return new UnitOfWork(dBContext);
+			return new UnitOfWork(dBContext, null, null, null ,null);
 		}
 
 		public static TicketDBContext GetActualSqlServerDbContext()
@@ -41,8 +41,8 @@ namespace TestAPI.Helpers
 
 			TicketDBContext dBContext = new TicketDBContext(options);
 
-			return new UnitOfWork(dBContext);
-		}
+            return new UnitOfWork(dBContext, null, null, null, null);
+        }
 
 
 		public static void InitializeData()

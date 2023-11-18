@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Entities
 {
@@ -18,17 +19,18 @@ namespace Core.Entities
 
         public DateTime ExpectedDate { get; set; }
 
-		public int? AssignedToId { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
+        public int? AssignedToId { get; set; }
 
 		[ForeignKey(nameof(AssignedToId))]
 		public User AssignedTo { get; set; }
-
 
         public int UserId { get; set; }
 
 		[ForeignKey(nameof(UserId))]
 		public User User { get; set; }
-
 
         public int ProductId { get; set; }
 		[ForeignKey(nameof(ProductId))]
