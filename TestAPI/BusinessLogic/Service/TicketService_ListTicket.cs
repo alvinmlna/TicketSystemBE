@@ -3,6 +3,7 @@ using Core.DTO.Request;
 using Core.Entities;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
+using DataAccess.Data;
 using DataAccess.Repository;
 using Newtonsoft.Json.Linq;
 using TestAPI.Helpers;
@@ -12,10 +13,16 @@ namespace TestAPI.BusinessLogic.Service
 	[TestClass]
 	public class TicketService_ListTicket
 	{
-		static UnitOfWork _unitOfWork = UnitOfWorkHelpers.GetInMemories();
-		private readonly ITicketServices _ticketServices = new TicketService(_unitOfWork, null);
+        static TicketDBContext _dbContext = UnitOfWorkHelpers.GetInMemoriesDBContext();
+        static UnitOfWork _unitOfWork = new UnitOfWork(_dbContext,
+            new ConfigurationRepository(_dbContext),
+            new TicketRepository(_dbContext),
+            new DiscussionRepository(_dbContext),
+            new UserRepository(_dbContext));
 
-		[TestInitialize]
+        private readonly ITicketServices _ticketServices = new TicketService(_unitOfWork, null);
+
+        [TestInitialize]
 		public void Initialize()
 		{
 			UnitOfWorkHelpers.InitializeData();

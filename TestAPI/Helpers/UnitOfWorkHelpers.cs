@@ -35,17 +35,19 @@ namespace TestAPI.Helpers
 
 		public static UnitOfWork GetInMemories()
 		{
-			DbContextOptions options = new DbContextOptionsBuilder<TicketDBContext>()
-			.UseInMemoryDatabase(databaseName: "ticketDb")
-			.Options;
-
-			TicketDBContext dBContext = new TicketDBContext(options);
-
-            return new UnitOfWork(dBContext, null, null, null, null);
+            return new UnitOfWork(null, null, null, null, null);
         }
 
+        public static TicketDBContext GetInMemoriesDBContext()
+        {
+            DbContextOptions options = new DbContextOptionsBuilder<TicketDBContext>()
+            .UseInMemoryDatabase(databaseName: "ticketDb")
+            .Options;
 
-		public static void InitializeData()
+            return new TicketDBContext(options);
+        }
+
+        public static void InitializeData()
 		{
 			if (dataalreadyInitialize) return;
 			dataalreadyInitialize = true;
@@ -75,10 +77,10 @@ namespace TestAPI.Helpers
 				dBContext.Statuses.Add(new Status { StatusId = 2, Name = "Open", StatusGroupId = 1 });
 				dBContext.Statuses.Add(new Status { StatusId = 3, Name = "Closed", StatusGroupId = 2 });
 
-				dBContext.Users.Add(new User { UserId = 1, Name = "Customer", Email = "customer@gmail.com", RoleId = 1 });
-				dBContext.Users.Add(new User { UserId = 2, Name = "Admin", Email = "admin1@gmail.com", RoleId = 2 });
-				dBContext.Users.Add(new User { UserId = 3, Name = "Admin 2", Email = "admin2@gmail.com", RoleId = 2 });
-				dBContext.Users.Add(new User { UserId = 4, Name = "Admin 3", Email = "admin2@gmail.com", RoleId = 2 });
+				dBContext.Users.Add(new User { UserId = 1, Name = "Customer", Email = "customer@gmail.com", RoleId = 1, ImagePath = "", PasswordHash = new byte[12], PasswordSalt = new byte[12] });
+				dBContext.Users.Add(new User { UserId = 2, Name = "Admin", Email = "admin1@gmail.com", RoleId = 2, ImagePath = "", PasswordHash = new byte[12], PasswordSalt = new byte[12] });
+				dBContext.Users.Add(new User { UserId = 3, Name = "Admin 2", Email = "admin2@gmail.com", RoleId = 2, ImagePath = "", PasswordHash = new byte[12], PasswordSalt = new byte[12] });
+				dBContext.Users.Add(new User { UserId = 4, Name = "Admin 3", Email = "admin2@gmail.com", RoleId = 2, ImagePath = "", PasswordHash = new byte[12], PasswordSalt = new byte[12] });
 
 				dBContext.SaveChanges();
 			}
@@ -107,7 +109,10 @@ namespace TestAPI.Helpers
 						CategoryId = 1, 
 						PriorityId = 1, 
 						StatusId = 1,
-						AssignedToId = 1 });
+						AssignedToId = 1,
+                        RowVersion = new byte[12]
+
+                    });
 
 				dBContext.Tickets.Add(
 				new Ticket
@@ -122,8 +127,9 @@ namespace TestAPI.Helpers
 					CategoryId = 2,
 					PriorityId = 2,
 					StatusId = 2,
-					AssignedToId = 1
-				});
+					AssignedToId = 1,
+                    RowVersion = new byte[12]
+                });
 
 
 				dBContext.Tickets.Add(
@@ -139,8 +145,9 @@ namespace TestAPI.Helpers
 					CategoryId = 3,
 					PriorityId = 3,
 					StatusId = 2,
-					AssignedToId = 1
-				});
+					AssignedToId = 1,
+                    RowVersion = new byte[12]
+                });
 
 
 
@@ -157,8 +164,9 @@ namespace TestAPI.Helpers
 					CategoryId = 3,
 					PriorityId = 2,
 					StatusId = 1,
-					AssignedToId = null
-				});
+					AssignedToId = 2,
+                    RowVersion = new byte[12]
+                });
 
 				dBContext.SaveChanges();
 			}

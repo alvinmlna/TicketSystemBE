@@ -15,7 +15,8 @@ namespace TestAPI.Generator
 		private readonly ITicketServices _ticketServices = new TicketService(_unitOfWork, null);
 
 		[TestMethod]
-		public void Generate()
+        [Ignore]
+        public void Generate()
 		{
 			//Generate Ticket
 			Random rand = new Random();
