@@ -98,38 +98,9 @@ namespace TestAPI.Helpers
 
 			using (var dBContext = new TicketDBContext(options))
 			{
-				dBContext.Tickets.Add(
-					new Ticket { TicketId = 1, 
-						Summary = "Summary number one", 
-						Description = "description", 
-						RaisedDate = new DateTime(2023, 10, 23), 
-						ExpectedDate = new DateTime(2023, 10, 23), 
-						UserId = 1, 
-						ProductId = 1, 
-						CategoryId = 1, 
-						PriorityId = 1, 
-						StatusId = 1,
-						AssignedToId = 1,
-                        RowVersion = new byte[12]
+				dBContext.Tickets.Add(TicketSample1());
 
-                    });
-
-				dBContext.Tickets.Add(
-				new Ticket
-				{
-					TicketId = 2,
-					Summary = "Summary number two",
-					Description = "description",
-					RaisedDate = new DateTime(2023, 10, 23),
-					ExpectedDate = new DateTime(2023, 10, 23),
-					UserId = 1,
-					ProductId = 2,
-					CategoryId = 2,
-					PriorityId = 2,
-					StatusId = 2,
-					AssignedToId = 1,
-                    RowVersion = new byte[12]
-                });
+				dBContext.Tickets.Add(TicketSample2());
 
 
 				dBContext.Tickets.Add(
@@ -171,5 +142,47 @@ namespace TestAPI.Helpers
 				dBContext.SaveChanges();
 			}
 		}
-}
+
+		#region FakeData
+
+		public static Ticket TicketSample1()
+		{
+			return new Ticket
+			{
+				TicketId = 1,
+				Summary = "Summary number one",
+				Description = "description",
+				RaisedDate = new DateTime(2023, 10, 23),
+				ExpectedDate = new DateTime(2023, 10, 23),
+				UserId = 1,
+				ProductId = 1,
+				CategoryId = 1,
+				PriorityId = 1,
+				StatusId = 1,
+				AssignedToId = 1,
+				RowVersion = new byte[12]
+			};
+        }
+
+        public static Ticket TicketSample2()
+        {
+			return new Ticket
+			{
+				TicketId = 2,
+				Summary = "Summary number two",
+				Description = "description",
+				RaisedDate = new DateTime(2023, 10, 23),
+				ExpectedDate = new DateTime(2023, 10, 23),
+				UserId = 1,
+				ProductId = 2,
+				CategoryId = 2,
+				PriorityId = 2,
+				StatusId = 2,
+				AssignedToId = 1,
+				RowVersion = new byte[12]
+			};
+        }
+        #endregion
+
+    }
 }
