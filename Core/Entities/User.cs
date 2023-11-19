@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel.DataAnnotations;
+
 namespace Core.Entities
 {
 	public class User
@@ -11,5 +13,7 @@ namespace Core.Entities
         public byte[] PasswordHash { get; set; }
 		public byte[] PasswordSalt { get; set; }
         public bool IsRemoved { get; set; }
+
+        public Ticket? LockedTicket { get; set; }
     }
 }

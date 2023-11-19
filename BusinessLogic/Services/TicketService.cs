@@ -86,7 +86,34 @@ namespace BusinessLogic.Services
 			return result;
 		}
 
-		public async Task<bool> UploadFile(List<Attachment> attachments, int ticketId)
+        public async Task<DefaultResponse> LockTicketRow(Ticket ticket, int UserId)
+        {
+			int maxTimeTickedLocked = 20;
+            if (ticket.LockedUserId is not null && 
+				ticket.LockedDate != null &&
+                ticket.LockedUserId != UserId &&
+                ticket.LockedDate.Value.AddMinutes(maxTimeTickedLocked) > DateTime.Now)
+            {
+				//Ticket is locked by other user
+				return new DefaultResponse() {
+					IsSuccess = false,
+					Message = $"Ticket is locked by {ticket.LockedUser?.Name}"
+				};
+			}
+
+            ticket.LockedUserId = UserId; 
+			ticket.LockedDate =	DateTime.Now;
+
+            _unitOfWork.Repository<Ticket>().Update(ticket);
+            await _unitOfWork.SaveChangesReturnBool();
+
+            return new DefaultResponse()
+            {
+                IsSuccess = true,
+            };
+        }
+
+        public async Task<bool> UploadFile(List<Attachment> attachments, int ticketId)
 		{
 			var ticket = await _unitOfWork.Repository<Ticket>().GetByIdAsync(ticketId);
 			if (ticket == null) { return false; }

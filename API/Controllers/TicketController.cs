@@ -82,8 +82,17 @@ namespace API.Controllers
 			var ticket = await _ticketServices.GetTicketById(id);
 			if (ticket == null) return NotFound(id);
 
-			var ticketDTO = _mapper.Map<Ticket, TicketDTO>(ticket);
-			return Ok(ticketDTO);
+            var currentUser = CurrentUser.Get(User);
+			var lockedTicket = await _ticketServices.LockTicketRow(ticket, currentUser.UserId);
+			if (lockedTicket.IsSuccess)
+			{
+                var ticketDTO = _mapper.Map<Ticket, TicketDTO>(ticket);
+                return Ok(ticketDTO);
+            } 
+				else
+			{
+				return ApiResponseHelpers.BadRequest(lockedTicket.Message);
+			}
 		}
 
 		[HttpGet]

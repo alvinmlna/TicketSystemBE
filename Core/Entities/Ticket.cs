@@ -22,6 +22,14 @@ namespace Core.Entities
         [Timestamp]
         public byte[] RowVersion { get; set; }
 
+        public DateTime? LockedDate { get; set; }
+
+        public int? LockedUserId { get; set; }
+
+        [ForeignKey(nameof(LockedUserId))]
+        public User? LockedUser { get; set; }
+
+
         public int? AssignedToId { get; set; }
 
 		[ForeignKey(nameof(AssignedToId))]

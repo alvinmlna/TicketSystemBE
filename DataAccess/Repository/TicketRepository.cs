@@ -128,6 +128,7 @@ namespace DataAccess.Repository
 				.Include(x => x.Status)
 				.Include(x => x.User)
 				.Include(x => x.AssignedTo)
+				.Include(x => x.LockedUser)
 				.FirstOrDefaultAsync(x => x.TicketId == id);
 		}
 

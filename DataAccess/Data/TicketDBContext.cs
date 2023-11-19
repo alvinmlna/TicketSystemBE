@@ -37,6 +37,13 @@ namespace DataAccess.Data
 				.WithMany()
 				.HasForeignKey(x => x.UserId)
 				.OnDelete(DeleteBehavior.NoAction);
+
+
+            modelBuilder.Entity<User>()
+                .HasOne(m => m.LockedTicket)
+                .WithOne(x => x.LockedUser)
+                .HasForeignKey<Ticket>(x => x.LockedUserId)
+				.IsRequired(false);
         }
     }
 }
