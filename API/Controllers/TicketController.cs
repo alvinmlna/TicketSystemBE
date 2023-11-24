@@ -95,7 +95,7 @@ namespace API.Controllers
             } 
 				else
 			{
-				return ApiResponseHelpers.BadRequest(lockedTicket.Message);
+				return ApiResponseHelpers.BadRequest(null, message: lockedTicket.Message);
 			}
 		}
 

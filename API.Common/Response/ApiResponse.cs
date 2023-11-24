@@ -8,7 +8,7 @@ namespace API.Common.Response
 	{
 		public int StatusCode { get; set; }
 
-		public object ErrorMessage { get; set; }
+		public object Error { get; set; }
 
 		public object Result { get; set; }
 		public object Data { get; set; }
@@ -26,7 +26,7 @@ namespace API.Common.Response
 		{
 			StatusCode = (int)statusCode;
 			Result = result;
-			ErrorMessage = errorMessage;
+			Error = errorMessage;
 			Data = data;
 		}
 
