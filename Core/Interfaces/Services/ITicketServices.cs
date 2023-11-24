@@ -16,6 +16,8 @@ namespace Core.Interfaces.Services
 
 		Task<DefaultResponse> LockTicketRow(Ticket ticket, int UserId);
 
+		Task<DefaultResponse> UnlockTicketByUser(int UserId);
+
         Task<List<ListTicketResponse>> ListTicketResponse(ListTicketRequest listTicketRequest);
     }
 }

@@ -6,10 +6,11 @@ using Core.Entities;
 using Core.Interfaces.Repository;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DataAccess.Repository
 {
-	public class TicketRepository : GenericRepository<Ticket>, ITicketRepository
+    public class TicketRepository : GenericRepository<Ticket>, ITicketRepository
 	{
 		public TicketRepository(TicketDBContext ticketContext) : base(ticketContext)
 		{
@@ -134,7 +135,7 @@ namespace DataAccess.Repository
 
 		public Task<List<Ticket>> ListTicket(ListTicketRequest? request)
 		{
-			var mainQuery = dbContext.Set<Ticket>()
+			IQueryable<Ticket> mainQuery = dbContext.Set<Ticket>()
 				.Include(x => x.Attachments)
 				.Include(x => x.Category)
 				.Include(x => x.Priority)
@@ -145,15 +146,56 @@ namespace DataAccess.Repository
 
 			if(request == null)
 				return mainQuery.ToListAsync();
+			
+			if(!string.IsNullOrEmpty(request.Summary))
+			{
+				mainQuery = mainQuery
+				.Where(x => (EF.Functions.Like(x.Summary, $"%{request.Summary}%")));
+            }
 
-			return	mainQuery
-				.Where(x => (request.Summary == null || EF.Functions.Like(x.Summary, $"%{request.Summary}%")))
-				.Where(x => (request.ProductId == null || request.ProductId.Contains(x.ProductId)))
-				.Where(x => (request.CategoryId == null || request.CategoryId.Contains(x.CategoryId)))
-				.Where(x => (request.PriorityId == null || request.PriorityId.Contains(x.PriorityId)))
-				.Where(x => (request.StatusId == null || request.StatusId.Contains(x.StatusId)))
-				.Where(x => (request.RaisedBy == null || request.RaisedBy.Contains(x.UserId)))
-				.ToListAsync();
+			if (request.ProductId != null)
+			{
+				mainQuery = mainQuery.Where(x => request.ProductId.Contains(x.ProductId));
+
+            }
+
+            if (request.CategoryId != null)
+            {
+				mainQuery = mainQuery.Where(x => request.CategoryId.Contains(x.CategoryId));
+            }
+
+            if (request.PriorityId != null)
+            {
+                mainQuery = mainQuery.Where(x => request.PriorityId.Contains(x.PriorityId));
+            }
+
+            if (request.StatusId != null)
+            {
+                mainQuery = mainQuery.Where(x => request.StatusId.Contains(x.StatusId));
+            }
+
+            if (request.RaisedBy != null)
+            {
+                mainQuery = mainQuery.Where(x => request.RaisedBy.Contains(x.UserId));
+            }
+
+			return mainQuery.ToListAsync();
 		}
-	}
+
+        public async Task<bool> UnlockTicketByUserId(int userId)
+        {
+			var lockedByUser = await dbContext.Set<Ticket>().FirstOrDefaultAsync(x => x.LockedUserId == userId);
+			if (lockedByUser != null)
+			{
+				lockedByUser.LockedUser = null;
+				lockedByUser.LockedDate = null;
+				lockedByUser.LockedUserId = null;
+
+				dbContext.Set<Ticket>().Update(lockedByUser);
+				return await dbContext.SaveChangesAsync() > 0;
+			}
+
+			return false;
+        }
+    }
 }

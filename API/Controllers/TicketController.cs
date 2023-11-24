@@ -83,6 +83,10 @@ namespace API.Controllers
 			if (ticket == null) return NotFound(id);
 
             var currentUser = CurrentUser.Get(User);
+
+			//Unlock all ticket by this user
+			await _ticketServices.UnlockTicketByUser(currentUser.UserId);
+
 			var lockedTicket = await _ticketServices.LockTicketRow(ticket, currentUser.UserId);
 			if (lockedTicket.IsSuccess)
 			{

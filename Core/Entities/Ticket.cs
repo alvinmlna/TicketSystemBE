@@ -33,7 +33,7 @@ namespace Core.Entities
         public int? AssignedToId { get; set; }
 
 		[ForeignKey(nameof(AssignedToId))]
-		public User AssignedTo { get; set; }
+		public User? AssignedTo { get; set; }
 
         public int UserId { get; set; }
 

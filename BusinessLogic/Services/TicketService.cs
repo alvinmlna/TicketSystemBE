@@ -5,10 +5,11 @@ using Core.Entities;
 using Core.Interfaces.Repository;
 using Core.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
+using System.Net.Sockets;
 
 namespace BusinessLogic.Services
 {
-	public partial class TicketService : ITicketServices
+    public partial class TicketService : ITicketServices
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly ILoggingService _log;
@@ -112,6 +113,17 @@ namespace BusinessLogic.Services
                 IsSuccess = true,
             };
         }
+
+        public async Task<DefaultResponse> UnlockTicketByUser(int UserId)
+        {
+			var status = await _unitOfWork.TicketRepository.UnlockTicketByUserId(UserId);
+
+			return new DefaultResponse
+			{
+				IsSuccess = status
+			};
+        }
+
 
         public async Task<bool> UploadFile(List<Attachment> attachments, int ticketId)
 		{

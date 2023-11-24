@@ -95,5 +95,10 @@ namespace DataAccess.CahcedRepository
         {
             return _ticketRepository.ListTicket(request);
         }
+
+        public Task<bool> UnlockTicketByUserId(int userId)
+        {
+            return _ticketRepository.UnlockTicketByUserId(userId);
+        }
     }
 }

@@ -11,6 +11,7 @@ namespace Core.Interfaces.Repository
 		Task<List<Ticket>> ListTicket(ListTicketRequest request);
 		Task<List<StatusSummaryResponse>> GetStatusSummary();
 
+		Task<bool> UnlockTicketByUserId(int userId);
 
 		Task<List<Last12MonthTicketFromDB>> GetLast12MonthTickets();
 		Task<List<CategoryChartFromDB>> GetCategoryChart(string type);
